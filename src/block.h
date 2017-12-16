@@ -1,5 +1,9 @@
 #include <string>
 #include <iostream>
+
+#ifndef BLOCK_INC
+#define BLOCK_INC
+
 /*
     A block is the main component of a blockchain.
     A block stores the following information:
@@ -27,3 +31,5 @@ class Block{
         int get_block_hash();
         int set_hash();
 };
+
+#endif

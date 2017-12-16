@@ -3,8 +3,8 @@ CFLAGS=-Wall -Wextra
 MAINSOURCEDIR=./src
 all: blockchain
 
-blockchain: $(MAINSOURCEDIR)/main.cpp $(MAINSOURCEDIR)/block.cpp
-	$(CC) $(CCFLAGS) -o ./bin/blockchain $(MAINSOURCEDIR)/main.cpp $(MAINSOURCEDIR)/block.cpp
+blockchain: $(MAINSOURCEDIR)/main.cpp $(MAINSOURCEDIR)/block.cpp $(MAINSOURCEDIR)/blockchain.cpp
+	$(CC) $(CCFLAGS) -o ./bin/blockchain $(MAINSOURCEDIR)/main.cpp $(MAINSOURCEDIR)/block.cpp $(MAINSOURCEDIR)/blockchain.cpp
 
 # Below causes lnker errors \
 block.o: $(MAINSOURCEDIR)/block.cpp \
