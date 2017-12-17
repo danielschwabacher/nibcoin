@@ -1,18 +1,28 @@
 #include "block.h"
+#include "proof_of_work.h"
+#include "../lib/sha256.h"
 #include <string>
 #include <ctime>
 
 
-Block::Block(int prv_hash, std::string block_data){
+Block::Block(std::string prv_hash, std::string block_data){
     timestamp = std::time(nullptr);
     data = block_data;
     previous_hash = prv_hash;
     block_hash = set_hash();
 }
+
+
+Block::Block(std::string block_data){
+    timestamp = std::time(nullptr);
+    data = block_data;
+    previous_hash = "";
+    block_hash = set_hash();
+}
 /* 
     --- Getters for each Block attribute ---
 */
-time_t Block::get_timestamp(){
+std::time_t Block::get_timestamp(){
     return timestamp;
 }
 
@@ -20,18 +30,20 @@ std::string Block::get_data(){
     return data;
 }
 
-int Block::get_prev_hash(){
+std::string Block::get_prev_hash(){
     return previous_hash;
 }
 
-int Block::get_block_hash(){
-    return static_cast<int>(block_hash);    
+std::string Block::get_block_hash(){
+    return block_hash;    
 }
+
 /*
     A block_hash is the hashed value of a new block's
     timestamp + data + previous_hash
 */
-int Block::set_hash(){
-    std::string contents = std::to_string(timestamp) + data + std::to_string(previous_hash);
-    return static_cast<int>(std::hash<std::string>()(contents));
+std::string Block::set_hash(){
+    std::string contents = std::to_string(timestamp) + data + previous_hash;
+    std::string sha256_digest = sha256(contents);
+    return sha256_digest;
 }

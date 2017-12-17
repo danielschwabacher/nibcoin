@@ -1,5 +1,6 @@
 #include "blockchain.h"
 #include "block.h"
+#include "proof_of_work.h"
 #include <string>
 #include <ctime>
 
@@ -13,7 +14,7 @@ Blockchain::Blockchain(){
 void Blockchain::print_blockchain(){
     std::cout<<"Blocks in this blockchain"<<std::endl;
     std::cout<<"----------------"<<std::endl;                        
-    for (int i = 0; i < blocks_vector.size(); i++){
+    for (size_t i = 0; i < blocks_vector.size(); i++){
         Block current_block = blocks_vector[i];
         std::cout<<"Previous hash: "<<current_block.get_prev_hash()<<std::endl;
         std::cout<<"Block data: "<<current_block.get_data()<<std::endl;
@@ -32,7 +33,7 @@ int Blockchain::add_block(std::string block_data){
     }
     // Genesis block case
     else {
-        Block genesis_block = Block(0, block_data);
+        Block genesis_block = Block(block_data);
         blocks_vector.push_back(genesis_block);
         number_of_blocks++; 
         return 1;
