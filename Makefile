@@ -1,7 +1,7 @@
 CC=clang++
 CFLAGS=-Wall -Wextra
 MAINSOURCEDIR := ./src
-SOURCES = $(wildcard src/*.cpp)
+SOURCES = $(wildcard src/*.cpp lib/*.cpp)
 OBJECTS = $(patsubst src/%.cpp, build/%.o, $(SOURCES))
 
 all: blockchain
