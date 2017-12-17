@@ -14,11 +14,4 @@ build/%.o: src/%.cpp
 	
 clean:
 	rm ./bin/blockchain
-
-  # Below causes lnker errors \
-block.o: $(MAINSOURCEDIR)/block.cpp \
-	$(CC) $(CFLAGS) $(MAINSOURCEDIR)/block.cpp \
-main.o: $(MAINSOURCEDIR)/main.cpp \
-	$(CC) $(CFLAGS) $(MAINSOURCEDIR)/main.cpp \
-	blockchain: $(MAINSOURCEDIR)/main.cpp $(MAINSOURCEDIR)/block.cpp $(MAINSOURCEDIR)/blockchain.cpp \
-	$(CC) $(CCFLAGS) -o ./bin/blockchain $(MAINSOURCEDIR)/main.cpp $(MAINSOURCEDIR)/block.cpp $(MAINSOURCEDIR)/blockchain.cpp
+	rm ./build/*.o
