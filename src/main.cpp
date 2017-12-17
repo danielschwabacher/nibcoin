@@ -3,13 +3,11 @@
 #include <iostream>
 
 int main(){
-    // Genesis Block
-    Block b(0, "blah block data");
-    Block b2(1, "blah block data");
-    // std::cout<<"Block hash is: "<<b.get_block_hash()<<std::endl;
     Blockchain primary_blockchain;
-    primary_blockchain.add_block(b);
-    primary_blockchain.add_block(b2);
-    std::cout<<"There are: "<<primary_blockchain.get_number_blocks()<<" blocks in this chain."<<std::endl;
+    primary_blockchain.add_block("Sent 1 nibcoin to Ron");
+    primary_blockchain.add_block("Sent 2 nibcoins to Tyler");   
+    primary_blockchain.add_block("Sent 6 nibcoins to Tyler");   
+    primary_blockchain.add_block("Sent 2 nibcoins to Tyler");    
+    primary_blockchain.print_blockchain();
     return 0;
 }
