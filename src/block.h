@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 
+
 #ifndef BLOCK_INC
 #define BLOCK_INC
 
@@ -11,6 +12,7 @@
     ii.) previous_hash: the hash value of the block preceding this block in the chain
     iii.) block_hash: the hash value of the block
     iv.) timestamp: the time when the block is created
+    v.) nonce: a number which, when applied to a certain contents to be hashed, satisfies the proof of work (PoW) puzzle.
 */
 class Block{
     private:
@@ -18,6 +20,7 @@ class Block{
         std::string data;
         std::string previous_hash;
         std::string block_hash;
+        int nonce;
     public:
         Block(std::string prv_hash, std::string block_data);
         Block(std::string block_data);

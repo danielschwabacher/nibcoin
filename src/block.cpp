@@ -1,5 +1,5 @@
 #include "block.h"
-#include "proof_of_work.h"
+#include "proofer.h"
 #include "../lib/sha256.h"
 #include <string>
 #include <ctime>
@@ -12,7 +12,9 @@ Block::Block(std::string prv_hash, std::string block_data){
     block_hash = set_hash();
 }
 
-
+/* 
+    This is a makeshift genesis block constructor, it contains an empty string for the previous hash.
+*/
 Block::Block(std::string block_data){
     timestamp = std::time(nullptr);
     data = block_data;
