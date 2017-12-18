@@ -47,23 +47,10 @@ int Blockchain::get_number_blocks(){
 
 
 Block Blockchain::new_block(std::string data){
-    int target = 2;
+    int target = 1;
     std::string previous_block_hash = blocks_vector[blocks_vector.size() - 1].get_prev_hash();
     Block spawn_block(previous_block_hash, data);
     Proofer proof_of_work(&spawn_block, target);
     proof_of_work.run_pow();
     return spawn_block;
 }
-
-/*
-Block new_block(){
-    spawn_block = &Block{time.Now().Unix(), []byte(data), prevBlockHash, []byte{}, 0}
-	pow := NewProofOfWork(block)
-	nonce, hash := pow.Run()
-
-	block.Hash = hash[:]
-	block.Nonce = nonce
-
-	return block
-}
-*/

@@ -29,7 +29,6 @@ class Block{
         std::string get_prev_hash();
         std::string get_block_hash();
         std::string set_hash();
-        Block new_block();
 };
 
 #endif
