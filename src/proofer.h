@@ -22,5 +22,6 @@ class Proofer{
     public:
         Proofer(Block *block_to_prove, int zeros_target);
         std::string prepare_data(int nonce);
+        int run_pow();
 };
 #endif

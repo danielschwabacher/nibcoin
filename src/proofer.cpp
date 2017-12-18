@@ -16,3 +16,8 @@ std::string Proofer::prepare_data(int nonce){
     return block_contents;
 }
 
+int Proofer::run_pow(){
+    std::cout<<"Running PoW..."<<std::endl;
+    std::cout<<"Block in context: "<<pow_block_ptr->get_data()<<std::endl;
+    return 0;
+}
