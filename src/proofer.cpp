@@ -24,14 +24,12 @@ int Proofer::run_pow(){
     int nonce = 0;
     int maxNone = 20;
     // Convert this to the bit represenation of a sha256 hash (0xFFFFFFFF) -> (11111111111111111111111111111111)
-    long long int hash_repr;
+    int hash_repr;
     std::string hash;
     std::string hash_substring;
-    // std::cout << "Mining the block containing: "<<pow_block_ptr->get_data()<<std::endl;
     while (nonce < maxNone){
         std::string block_data = prepare_data(nonce);
         hash = sha256(block_data);
-        // std::cout << "Generated a hash of: " << hash << std::endl;
         hash_substring = hash.substr(0, target);
         hash_repr = std::stoi(hash_substring, 0, 16);
         std::cout << "Hash substring: " << hash_repr << std::endl;        
@@ -47,32 +45,3 @@ int Proofer::run_pow(){
     }
     return 0;
 }
-
-/*
-func (pow *ProofOfWork) Run() (int, []byte) {
-	var hashInt big.Int
-	var hash [32]byte
-	nonce := 0
-
-	fmt.Printf("Mining the block containing \"%s\"\n", pow.block.Data)
-	for nonce < maxNonce {
-		data := pow.prepareData(nonce)
-		hash = sha256.Sum256(data)
-		fmt.Printf("\r%x", hash)
-		hashInt.SetBytes(hash[:])
-
-		if hashInt.Cmp(pow.target) == -1 {
-			break
-		} else {
-			nonce++
-		}
-	}
-	fmt.Print("\n\n")
-
-	return nonce, hash[:]
-}
-*/
-
-
-
-

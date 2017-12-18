@@ -47,10 +47,10 @@ int Blockchain::get_number_blocks(){
 
 
 Block Blockchain::new_block(std::string data){
-    int target = 1;
+    int target_zeros = 2;
     std::string previous_block_hash = blocks_vector[blocks_vector.size() - 1].get_prev_hash();
     Block spawn_block(previous_block_hash, data);
-    Proofer proof_of_work(&spawn_block, target);
+    Proofer proof_of_work(&spawn_block, target_zeros);
     proof_of_work.run_pow();
     return spawn_block;
 }
