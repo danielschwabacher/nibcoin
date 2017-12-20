@@ -1,4 +1,4 @@
-CC=clang++
+CC=clang++ -std=c++11
 CFLAGS=-Wall -Wextra
 MAINSOURCEDIR := ./src
 SOURCES = $(wildcard src/*.cpp lib/*.cpp)
