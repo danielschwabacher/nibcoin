@@ -15,9 +15,9 @@ class Blockchain{
     public:
         Blockchain();        
         void print_blockchain();
-        int add_block(std::string block_data);
         int get_number_blocks();
         Block new_block(std::string data);
+        Block generate_genesis_block();
 };
 
 #endif
