@@ -3,6 +3,7 @@
 #include "../lib/sha256.h"
 #include <bitset>  
 #include <string>
+#include <tuple>
 
 /*
     The following PoW algoritihm is based on Hashcash. To prove a block has done the nessecary amount of work 
@@ -44,7 +45,8 @@ std::string Proofer::prepare_data(int nonce){
 }
 
 /*
-    This returns a valid nonce for a block, trying up to (2^63 - 1) nonces. It works in the following manner:
+    This returns a pair containing a valid nonce for a block, trying up to (2^63 - 1) nonces and the corresponding hash. 
+    It works in the following manner:
     1.) Prepare the block data
     2.) Generate a SHA256 digest of the block data
     3.) Slice off the leading target_zeros substring from the hash digest.
@@ -52,7 +54,7 @@ std::string Proofer::prepare_data(int nonce){
         4.1) If yes, return nonce and hash.
         4.2 If no, increment the nonce value and try again
 */
-int Proofer::run_pow(){
+std::pair<int, std::string> Proofer::run_pow(){
     int nonce = 0;
     int maxNone = 200;
     std::string hash;
@@ -60,16 +62,11 @@ int Proofer::run_pow(){
     while (nonce < maxNone){
         std::string block_data = prepare_data(nonce);
         hash = sha256(block_data);
-        // Pull the target number of leading chars
         hash_substring = hash.substr(0, target);
         if (is_valid_substring(hash_substring)){
-            std::cout<<"VALID HASH FOUND: "<<hash<<std::endl;
-            std::cout<<"NONCE: "<<nonce<<std::endl;
-            return nonce;
+            std::cout<<"PoW Done!"<<nonce<<std::endl;
+            return std::make_tuple(nonce, hash);
         }
         nonce++;
     }
-    return 0;
 }
-
-

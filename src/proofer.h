@@ -15,7 +15,7 @@ class Proofer{
         Proofer(Block *block_to_prove, int zeros_target);
         std::string prepare_data(int nonce);
         bool is_valid_substring(std::string hex_substring);            
-        int run_pow();
+        std::pair<int, std::string> run_pow();
 };
 
 #endif

@@ -3,6 +3,7 @@
 #include "proofer.h"
 #include <string>
 #include <ctime>
+#include <tuple>
 
 
 Blockchain::Blockchain(){
@@ -51,6 +52,11 @@ Block Blockchain::new_block(std::string data){
     std::string previous_block_hash = blocks_vector[blocks_vector.size() - 1].get_prev_hash();
     Block spawn_block(previous_block_hash, data);
     Proofer proof_of_work(&spawn_block, target_zeros);
-    proof_of_work.run_pow();
+    std::pair<int, std::string> pow_results = proof_of_work.run_pow();
+    // Reset block nonce to contain a valid nonce
+    spawn_block.set_nonce(std::get<0>(pow_results));
+    // Reset the block hash to the valid hash 
+    spawn_block.reset_hash(std::get<1>(pow_results));
+    blocks_vector.push_back(spawn_block);
     return spawn_block;
 }
