@@ -10,6 +10,17 @@ Proofer::Proofer(Block *block_to_prove, int zeros_target){
     target = zeros_target;
 }
 
+// Returns true if the target number of leading characters are all zeros.
+bool is_valid_substring(std::string hex_substring){
+    for (int i = 0; i < hex_substring.length(); i++){
+        if (hex_substring[i] == '0'){}
+        else{
+            return false;
+        }
+    }
+    return true;
+}
+
 /*
     Build and return a string containing all of a block's information plus a nonce.
 */
@@ -20,28 +31,23 @@ std::string Proofer::prepare_data(int nonce){
 
 // A valid hash has target leading zeros. 
 int Proofer::run_pow(){
-    std::cout << "Running PoW..." << std::endl;
     int nonce = 0;
     int maxNone = 20;
-    // Convert this to the bit represenation of a sha256 hash (0xFFFFFFFF) -> (11111111111111111111111111111111)
-    int hash_repr;
     std::string hash;
     std::string hash_substring;
     while (nonce < maxNone){
         std::string block_data = prepare_data(nonce);
         hash = sha256(block_data);
+        // std::cout << "Hash string: " << hash << std::endl;
+        // pull the target number of leading chars
         hash_substring = hash.substr(0, target);
-        hash_repr = std::stoi(hash_substring, 0, 16);
-        std::cout << "Hash substring: " << hash_repr << std::endl;        
-        if (hash_repr == target){
-            std::cout<<"Valid nonce and hash found!"<<std::endl;
-            std::cout<<"Hash is: "<< hash << std::endl;
-            std::cout<<"Nonce is: "<< nonce << std::endl;
-            return 0;
+        if (is_valid_substring(hash_substring)){
+            std::cout<<"VALID HASH FOUND: "<<hash<<std::endl;
+            std::cout<<"NONCE: "<<nonce<<std::endl;
         }
-        else{
-            nonce++;
-        }
+        nonce++;
     }
     return 0;
 }
+
+
