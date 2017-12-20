@@ -64,7 +64,7 @@ std::pair<int, std::string> Proofer::run_pow(){
         hash = sha256(block_data);
         hash_substring = hash.substr(0, target);
         if (is_valid_substring(hash_substring)){
-            std::cout<<"PoW Done!"<<nonce<<std::endl;
+            std::cout<<"PoW Done!"<<std::endl;
             return std::make_tuple(nonce, hash);
         }
         nonce++;
