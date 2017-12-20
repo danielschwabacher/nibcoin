@@ -29,6 +29,8 @@ class Block{
         std::string get_prev_hash();
         std::string get_block_hash();
         std::string set_hash();
+        void reset_hash(std::string new_hash);
+        void set_nonce(int valid_nonce);
 };
 
 #endif

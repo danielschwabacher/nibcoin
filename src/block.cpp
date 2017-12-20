@@ -21,6 +21,7 @@ Block::Block(std::string block_data){
     previous_hash = "";
     block_hash = set_hash();
 }
+
 /* 
     --- Getters for each Block attribute ---
 */
@@ -48,4 +49,16 @@ std::string Block::set_hash(){
     std::string contents = std::to_string(timestamp) + data + previous_hash;
     std::string sha256_digest = sha256(contents);
     return sha256_digest;
+}
+
+/*
+    Used to reset the block nonce once a valid nonce is found
+*/
+void Block::set_nonce(int valid_nonce){
+    nonce = valid_nonce;
+}
+
+
+void Block::reset_hash(std::string new_hash){
+    block_hash = new_hash;
 }
