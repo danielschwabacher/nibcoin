@@ -4,6 +4,7 @@
 #include <bitset>  
 #include <string>
 #include <tuple>
+#include <climits>
 
 /*
     The following PoW algoritihm is based on Hashcash. To prove a block has done the nessecary amount of work 
@@ -27,7 +28,8 @@ Proofer::Proofer(Block *block_to_prove, int zeros_target){
     Given a string, returns true if every character in the string is a zero.
 */
 bool Proofer::is_valid_substring(std::string hex_substring){
-    for (int i = 0; i < hex_substring.length(); i++){
+    int substring_length = static_cast<int>(hex_substring.length());
+    for (int i = 0; i < substring_length; i++){
         if (hex_substring[i] == '0'){}
         else{
             return false;
@@ -55,18 +57,21 @@ std::string Proofer::prepare_data(int nonce){
         4.2 If no, increment the nonce value and try again
 */
 std::pair<int, std::string> Proofer::run_pow(){
+    std::cout<<"Mining the block containing: "<<pow_block_ptr->get_data()<<std::endl;
     int nonce = 0;
-    int maxNone = 200;
+    long long int max_nonce = LLONG_MAX;
     std::string hash;
     std::string hash_substring;
-    while (nonce < maxNone){
+    while (nonce < max_nonce){
         std::string block_data = prepare_data(nonce);
         hash = sha256(block_data);
         hash_substring = hash.substr(0, target);
         if (is_valid_substring(hash_substring)){
-            std::cout<<"PoW Done!"<<std::endl;
+            std::cout<<"Found a valid nonce: "<<nonce<<std::endl;
             return std::make_tuple(nonce, hash);
         }
         nonce++;
     }
+    // TODO: Handle this case, a valid hash was not found within 2^63 - 1 hash attempts
+    return std::make_tuple(0, "invalid");
 }
