@@ -1,5 +1,6 @@
 #include "blockchain.h"
 #include "block.h"
+#include "leveldb/db.h"
 #include "proofer.h"
 #include <string>
 #include <ctime>
