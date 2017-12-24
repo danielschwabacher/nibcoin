@@ -1,5 +1,6 @@
 CC=clang++ -std=c++11
-CFLAGS=-Wall -Wextra  -I /usr/local/Cellar/leveldb/1.19/include
+CFLAGS=-Wall -Wextra
+LEVELDBHEADERS=-I /usr/local/Cellar/leveldb/1.19/include
 MAINSOURCEDIR := ./src
 SOURCES = $(wildcard src/*.cpp lib/*.cpp)
 OBJECTS = $(patsubst src/%.cpp, build/%.o, $(SOURCES))
@@ -7,10 +8,10 @@ OBJECTS = $(patsubst src/%.cpp, build/%.o, $(SOURCES))
 all: blockchain
 
 blockchain: $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o blockchain.out 
+	$(CC) $(CFLAGS) $(LEVELDBHEADERS) $(OBJECTS) -o blockchain.out 
 
 build/%.o: src/%.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(LEVELDBHEADERS) -c $< -o $@
 	
 clean:
 	rm blockchain.out
