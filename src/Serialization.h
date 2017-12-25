@@ -1,32 +1,29 @@
 #include <string>
 #include <iostream>
-
+#include "block.h"
+#include <fstream>
 
 #ifndef SERIALIZER_INC
 #define SERIALIZER_INC
 
 /*
-    A Serializer is responsible for encoding block data
-    into a format compatible with the data storage protocol.
-    The main function, serialize, accepts a block and returns
-    that block's data as a byte array.
+    A SerializationWrapper provides a few handy wrappers to 
+    test serialization functionality across different data types.
 */
-class Serializer{
+class SerializationWrapper{
     public:
-        Serializer();
-        std::string serialize(Block block_to_serialize);
+        SerializationWrapper();
+        int demonstrate_serialization();
 };
 
 /*
-    A Deserializer is responsible for decoding block data
-    bytes into a format compatible with the data storage protocol.
-    The main function, deserialize, accepts an arbtiray byte stream 
-    and returns the corresponding block.
+    A DeserializationWrapper provides a few handy wrappers to 
+    test deserialization functionality across different data types.
 */
-class Deserializer{
+class DeserializationWrapper{
     public:
-        Deserializer();
-        // std::string deserialize();
+        DeserializationWrapper();
+        int demonstrate_deserialization();        
 };
 
 #endif
