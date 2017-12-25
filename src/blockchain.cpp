@@ -1,6 +1,5 @@
 #include "blockchain.h"
 #include "block.h"
-#include "leveldb/db.h"
 #include "proofer.h"
 #include <string>
 #include <ctime>
@@ -8,10 +7,12 @@
 
 const int TARGET_ZEROS = 4;
 
+// options.create_if_missing = true;
+// leveldb::Status status = leveldb::DB::Open(options, "/tmp/testdb", &db);
+
 Blockchain::Blockchain(){
     number_of_blocks = 0;
     generate_genesis_block();
-    std::cout<<"Blockchain created!"<<std::endl;
 }
 
 void Blockchain::print_blockchain(){
