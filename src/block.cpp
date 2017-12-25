@@ -41,6 +41,10 @@ std::string Block::get_block_hash(){
     return block_hash;    
 }
 
+int Block::get_nonce(){
+    return nonce;
+}
+
 /*
     A block_hash is the hashed value of a new block's
     timestamp + data + previous_hash
