@@ -12,7 +12,7 @@ int SerializationWrapper::demonstrate_serialization(){
     // 0.) File to write serialized data to
     std::ofstream ofs("/tmp/serial_test.dat");
     // 1.) Create a bogus, non-linked block to serialize
-    Block test_block("previous", "data");
+    Block test_block("previous", "random block data");
     {
         boost::archive::text_oarchive out_archive(ofs);
         out_archive << test_block;
