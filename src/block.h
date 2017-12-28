@@ -1,7 +1,5 @@
 #include <string>
 #include <iostream>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
 
 #ifndef BLOCK_INC
 #define BLOCK_INC
@@ -17,16 +15,6 @@
 */
 class Block{
     private:
-        friend class boost::serialization::access;
-        template<class Archive>
-        void serialize(Archive & ar, const int version)
-        {
-            ar & timestamp;
-            ar & data;
-            ar & previous_hash;
-            ar & block_hash;
-            ar & nonce;
-        }
         std::time_t timestamp;
         std::string data;
         std::string previous_hash;
@@ -35,6 +23,7 @@ class Block{
     public:
         Block(std::string prv_hash, std::string block_data);
         Block(std::string block_data);
+        Block(std::time_t block_timestamp, std::string block_data, std::string prv_hash, std::string current_hash, int block_nonce);            
         std::time_t get_timestamp();
         std::string get_data();
         std::string get_prev_hash();
@@ -44,5 +33,4 @@ class Block{
         void reset_hash(std::string new_hash);
         void set_nonce(int valid_nonce);
 };
-
 #endif

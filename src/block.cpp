@@ -3,8 +3,13 @@
 #include "../lib/sha256.h"
 #include <string>
 #include <ctime>
+#include "../lib/json.hpp"
 
 
+/*
+    Standard block constructor, used when creating blocks based on 
+    blocks that are found earlier in the chain.
+*/
 Block::Block(std::string prv_hash, std::string block_data){
     timestamp = std::time(nullptr);
     data = block_data;
@@ -13,7 +18,7 @@ Block::Block(std::string prv_hash, std::string block_data){
 }
 
 /* 
-    This is a makeshift genesis block constructor, it contains an empty string for the previous hash.
+    Genesis block constructor, ignore the previous hash.
 */
 Block::Block(std::string block_data){
     timestamp = std::time(nullptr);
@@ -21,6 +26,18 @@ Block::Block(std::string block_data){
     previous_hash = "";
     block_hash = set_hash();
 }
+
+/* 
+    Serializable block constructor, used when reconstructing blocks from JSON data
+*/
+Block::Block(std::time_t block_timestamp, std::string block_data, std::string prv_hash, std::string current_hash, int block_nonce){
+    timestamp = block_timestamp;
+    data = block_data;
+    previous_hash = prv_hash;
+    block_hash = current_hash;
+    nonce = block_nonce;
+}
+
 
 /* 
     --- Getters for each Block attribute ---
@@ -46,7 +63,7 @@ int Block::get_nonce(){
 }
 
 /*
-    A block_hash is the hashed value of a new block's
+    A block_hash is the hashed value of a block's
     timestamp + data + previous_hash
 */
 std::string Block::set_hash(){
@@ -62,7 +79,9 @@ void Block::set_nonce(int valid_nonce){
     nonce = valid_nonce;
 }
 
-
+/*
+    Used to reset the block hash once a provable hash is found
+*/
 void Block::reset_hash(std::string new_hash){
     block_hash = new_hash;
 }

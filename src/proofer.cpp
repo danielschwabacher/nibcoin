@@ -57,6 +57,7 @@ std::string Proofer::prepare_data(int nonce){
         4.2 If no, increment the nonce value and try again
 */
 std::pair<int, std::string> Proofer::run_pow(){
+    std::pair<int, std::string> return_value;
     std::cout<<"Mining the block containing: "<<pow_block_ptr->get_data()<<std::endl;
     int nonce = 0;
     long long int max_nonce = LLONG_MAX;
@@ -68,7 +69,9 @@ std::pair<int, std::string> Proofer::run_pow(){
         hash_substring = hash.substr(0, target);
         if (is_valid_substring(hash_substring)){
             std::cout<<"Found a valid nonce: "<<nonce<<std::endl;
-            return std::make_tuple(nonce, hash);
+            std::cout<<"hash is: "<<hash<<std::endl;
+            return_value = std::make_pair(nonce, hash);
+            return return_value;
         }
         nonce++;
     }
