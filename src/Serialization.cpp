@@ -1,40 +1,41 @@
 #include "Serialization.h"
 #include "block.h"
 #include <string>
-#include <boost/archive/binary_oarchive.hpp>
-#include <boost/archive/binary_iarchive.hpp>
+#include "../lib/json.hpp"
 
 SerializationWrapper::SerializationWrapper(){
 
 }
 
-int SerializationWrapper::demonstrate_serialization(){
-    // 0.) File to write serialized data to
-    std::ofstream ofs("/tmp/serial_test.dat");
-    // 1.) Create a bogus, non-linked block to serialize
-    Block test_block("previous", "random block data");
-    {
-        boost::archive::text_oarchive out_archive(ofs);
-        out_archive << test_block;
-    }
-    return 0;
+/*
+    Returns an object containing a 
+    block's data serialized as JSON.
+*/
+nlohmann::json SerializationWrapper::serialize_block(Block block_to_serialize){
+    nlohmann::json block_data;
+    block_data["block_timestamp"] = block_to_serialize.get_timestamp();
+    block_data["block_data"] = block_to_serialize.get_data();
+    block_data["prv_hash"] = block_to_serialize.get_prev_hash();
+    block_data["current_hash"] = block_to_serialize.get_block_hash();
+    block_data["block_nonce"] = block_to_serialize.get_nonce();
+    return block_data;
 }
+
 
 DeserializationWrapper::DeserializationWrapper(){
     
 }
 
-int DeserializationWrapper::demonstrate_deserialization(){
-    // 0.) Open the serialized data
-    std::ifstream ifs("/tmp/serial_test.dat");
-    // 1.) Create a block which will hold the restored data  
-    Block restored_block("s");
-    {
-        boost::archive::text_iarchive input_archive(ifs);
-        input_archive >> restored_block;
-    }
-    std::cout<<"---Deserialized block data---"<<std::endl;
-    std::cout<<"Block timestamp: "<<restored_block.get_timestamp()<<std::endl;        
-    std::cout<<"Block data: "<<restored_block.get_data()<<std::endl;    
-    return 0;
+/*
+    Returns a Block object constructed from 
+    serialized JSON data.
+*/
+Block DeserializationWrapper::deserialize_block(nlohmann::json block_data){
+    std::time_t current_block_time =  block_data["block_timestamp"];
+    std::string current_block_data = block_data["block_data"];
+    std::string current_previous_hash = block_data["prv_hash"];
+    std::string current_block_hash = block_data["current_hash"];
+    int current_nonce = block_data["block_nonce"];
+    Block restored_block(current_block_time, current_block_data, current_previous_hash, current_block_hash, current_nonce);
+    return restored_block;
 }

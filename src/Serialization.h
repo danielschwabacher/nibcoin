@@ -1,29 +1,29 @@
 #include <string>
 #include <iostream>
 #include "block.h"
-#include <fstream>
+#include "../lib/json.hpp"
 
 #ifndef SERIALIZER_INC
 #define SERIALIZER_INC
 
 /*
-    A SerializationWrapper provides a few handy wrappers to 
-    test serialization functionality across different data types.
+    A SerializationWrapper provides wrappers to 
+    serialize across different data types.
 */
 class SerializationWrapper{
     public:
         SerializationWrapper();
-        int demonstrate_serialization();
+        nlohmann::json serialize_block(Block block_to_serialize);
 };
 
 /*
-    A DeserializationWrapper provides a few handy wrappers to 
-    test deserialization functionality across different data types.
+    A DeserializationWrapper provides wrappers to 
+    deserialize across different data types.
 */
 class DeserializationWrapper{
     public:
         DeserializationWrapper();
-        int demonstrate_deserialization();        
+        Block deserialize_block(nlohmann::json json_data);      
 };
 
 #endif
