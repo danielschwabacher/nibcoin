@@ -1,20 +1,29 @@
 #include "blockchain.h"
 #include "block.h"
 #include "proofer.h"
+#include "Serialization.h"
+#include "../lib/json.hpp"
 #include <string>
-#include <ctime>
-#include <tuple>
+#include <cassert>
+#include <leveldb/db.h>
 
-const int TARGET_ZEROS = 4;
+const int TARGET_ZEROS = 2;
 
-// options.create_if_missing = true;
-// leveldb::Status status = leveldb::DB::Open(options, "/tmp/testdb", &db);
-
+/*
+    
+*/
 Blockchain::Blockchain(){
-    number_of_blocks = 0;
-    generate_genesis_block();
+    leveldb::Options options;
+    options.create_if_missing = true;
+    options.error_if_exists = false;    
+    leveldb::Status status = leveldb::DB::Open(options, "/tmp/test_blockchain_db", &blockchain_db);
+    assert(status.ok());
+    Block genesis_block = generate_genesis_block();
+    SerializationWrapper serial;
+    nlohmann::json serialized_block_data = serial.serialize_block(genesis_block);
+    blockchain_db->Put(leveldb::WriteOptions(), serialized_block_data.dump(), "Genesis block");
 }
-
+/*
 void Blockchain::print_blockchain(){
     std::cout<<"Blocks in this blockchain"<<std::endl;
     std::cout<<"----------------"<<std::endl;                        
@@ -45,16 +54,16 @@ Block Blockchain::new_block(std::string data){
     number_of_blocks++;
     return spawn_block;
 }
-
+*/
 Block Blockchain::generate_genesis_block(){
-    Block genesis_block("Genesis block");
+    Block genesis_block("0", "Genesis block");
     Proofer proof_of_work(&genesis_block, TARGET_ZEROS);
     std::pair<int, std::string> pow_results = proof_of_work.run_pow();
     // Reset block nonce to contain a valid nonce
     genesis_block.set_nonce(std::get<0>(pow_results));
     // Reset the block hash to the valid hash 
     genesis_block.reset_hash(std::get<1>(pow_results));
-    blocks_vector.push_back(genesis_block);
-    number_of_blocks++;
+    // blocks_vector.push_back(genesis_block);
+    // number_of_blocks++;
     return genesis_block;
 }
