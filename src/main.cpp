@@ -11,6 +11,8 @@
 */
 int main(){ 
     Blockchain primary_blockchain;
+    primary_blockchain.new_block("First block");
+    primary_blockchain.new_block("Second block");
     return 0;
 }
 
