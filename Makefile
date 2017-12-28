@@ -30,3 +30,4 @@ build/%.o: src/%.cpp
 clean:
 	rm blockchain.out
 	rm ./build/*.o
+	rm -rf /tmp/test_blockchain_db
