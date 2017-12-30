@@ -15,8 +15,8 @@ const int TARGET_ZEROS = 2;
 Blockchain::Blockchain(){
     leveldb::Options options;
     options.create_if_missing = true;
-    options.error_if_exists = false;    
-    leveldb::Status status = leveldb::DB::Open(options, "/tmp/test_blockchain_db", &blockchain_db);
+    options.error_if_exists = false;
+    leveldb::Status status = leveldb::DB::Open(options, "/tmp/blocks", &blockchain_db);
     assert(status.ok());
     Block genesis_block = generate_genesis_block();
     tip = genesis_block.get_block_hash();
@@ -51,6 +51,6 @@ Block Blockchain::generate_genesis_block(){
     return genesis_block;
 }
 
-
-
-
+leveldb::DB* Blockchain::get_database(){
+    return blockchain_db;
+}

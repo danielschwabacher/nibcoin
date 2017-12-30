@@ -18,6 +18,7 @@ class Blockchain{
         Blockchain();        
         Block new_block(std::string data);
         Block generate_genesis_block();
+        leveldb::DB *get_database();
 };
 
 #endif
