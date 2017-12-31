@@ -14,6 +14,7 @@ class BlockchainIterator{
     public:
         BlockchainIterator(leveldb::DB *database);
         void print_all_kv();
+        void pretty_print();
 };
 
 #endif
