@@ -7,14 +7,15 @@
 #include <string>
 #include <cassert>
 
-const int TARGET_ZEROS = 2;
-const std::string database_location = "/tmp/blocks";
+
+// const int TARGET_ZEROS = 4;
+// const std::string database_location = "/tmp/blocks";
 
 /*
     
 */
-Blockchain::Blockchain() : blockchain_db(database_location) {
-    // blockchain_db = Database(database_location);
+Blockchain::Blockchain(int leading_zeros, std::string db_loc) : blockchain_db(db_loc) {
+    target_zeros = leading_zeros;
     SerializationWrapper serializer = SerializationWrapper();
     if (!blockchain_db.check_genesis()){
         std::cout<<"No genesis block found, mining one..."<<std::endl;
@@ -29,7 +30,7 @@ Blockchain::Blockchain() : blockchain_db(database_location) {
 
 Block Blockchain::new_block(std::string data){
     Block spawn_block(tip, data);
-    Proofer proof_of_work(&spawn_block, TARGET_ZEROS);
+    Proofer proof_of_work(&spawn_block, target_zeros);
     std::pair<int, std::string> pow_results = proof_of_work.run_pow();
     // Reset block nonce to contain a valid nonce
     spawn_block.set_nonce(std::get<0>(pow_results));
@@ -44,7 +45,7 @@ Block Blockchain::new_block(std::string data){
 
 Block Blockchain::generate_genesis_block(){
     Block genesis_block("Genesis block");
-    Proofer proof_of_work(&genesis_block, TARGET_ZEROS);
+    Proofer proof_of_work(&genesis_block, target_zeros);
     std::pair<int, std::string> pow_results = proof_of_work.run_pow();
     // Reset block nonce to contain a valid nonce
     genesis_block.set_nonce(std::get<0>(pow_results));
