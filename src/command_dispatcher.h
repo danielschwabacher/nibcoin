@@ -14,8 +14,9 @@ class CommandDispatcher{
     public:
         CommandDispatcher(Blockchain *chain_context);    
         int run_add_block();
-        int run_print_chain();
+        int run_dump_chain();
         int run_delete_chain();
+        int run_pretty_print();
         int print_help();
 };
 
