@@ -16,6 +16,7 @@
 */
 Blockchain::Blockchain(int leading_zeros, std::string db_loc) : blockchain_db(db_loc) {
     target_zeros = leading_zeros;
+    db_location = db_loc;
     SerializationWrapper serializer = SerializationWrapper();
     if (!blockchain_db.check_genesis()){
         std::cout<<"No genesis block found, mining one..."<<std::endl;
@@ -56,6 +57,10 @@ Block Blockchain::generate_genesis_block(){
     blockchain_db.write_block(genesis_block);
     tip = genesis_block.get_block_hash();
     return genesis_block;
+}
+
+std::string Blockchain::get_db_location(){
+    return db_location;
 }
 
 Database Blockchain::get_database(){

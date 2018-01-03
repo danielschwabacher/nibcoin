@@ -23,6 +23,7 @@ class Blockchain{
         Block new_block(std::string data);
         Block generate_genesis_block();
         Database get_database();
+        std::string get_db_location();
 };
 
 #endif
