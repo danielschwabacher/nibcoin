@@ -51,10 +51,22 @@ int CommandDispatcher::run_dump_chain(){
 
 int CommandDispatcher::run_delete_chain(){
     Database curr_db = chain_context->get_database();
-    system("rm -rf /tmp/blocks");
-    curr_db.delete_database();
-    std::cout<<"Database and block chain deleted!"<<std::endl;
-    exit(0);
+    std::string db = chain_context->get_db_location();
+    std::cout << "Database found in: " << db << std::endl;
+    std::cout << "Do you want to delete it? y/n: " << std::endl;
+    std::string answer;
+    std::getline(std::cin, answer);
+    if (answer == "y"){
+        std::string cmd_line = std::string("rm -rf ") + db.c_str();
+        system(cmd_line.c_str()); 
+        curr_db.delete_database();
+        std::cout<<"Database and block chain deleted!"<<std::endl; 
+        exit(0);
+    }        
+    else{
+        std::cout<<"Not deleted."<<std::endl; 
+        return 0;
+    }
 }
 
 int CommandDispatcher::run_pretty_print(){
@@ -73,3 +85,4 @@ int CommandDispatcher::print_help(){
     std::cout<<"<help>: Show this help menu."<<std::endl;
     return 0;
 }
+
