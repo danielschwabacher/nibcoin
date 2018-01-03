@@ -30,8 +30,10 @@ int main(){
             exit(0);
         else if (command == "add_block")
             dispatch.run_add_block();
+        else if (command == "dump_chain")
+            dispatch.run_dump_chain();
         else if (command == "print_chain")
-            dispatch.run_print_chain();
+            dispatch.run_pretty_print();
         else if (command == "delete_chain")
             dispatch.run_delete_chain();
         else if (command == "help")
