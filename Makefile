@@ -3,16 +3,16 @@ CC=clang++ -std=c++14
 CFLAGS=-Wall -Wextra
 
 # Boost headers location and libraries to link against
-BOOSTHEADERS=-I /usr/local/boost-1.66.0/include
-BOOSTLIBDIR=/usr/local/boost-1.66.0/lib/libboost_serialization.a
+BOOST_HEADERS=-I /usr/local/boost-1.66.0/include
+BOOST_SERIAL_LIB_DIR=/usr/local/boost-1.66.0/lib/libboost_serialization.a
 
 # LevelDB headers and library location
-LEVELDBLIBDIR=/usr/local/Cellar/leveldb/1.19/lib/libleveldb.a
-LEVELDBHEADERS=-I /usr/local/Cellar/leveldb/1.19/include
+LEVELDB_LIB_DIR=/usr/local/Cellar/leveldb/1.19/lib/libleveldb.a
+LEVELDB_HEADERS=-I /usr/local/Cellar/leveldb/1.19/include
 
 # Snappy headers and lib location: LevelDB dependency
-SNAPPYLIBDIR=/usr/local/Cellar/snappy/1.1.3/lib/libsnappy.a
-SNAPPYHEADERS=-I /usr/local/Cellar/snappy/1.1.3/include
+SNAPPY_LIB_DIR=/usr/local/Cellar/snappy/1.1.3/lib/libsnappy.a
+SNAPPY_HEADERS=-I /usr/local/Cellar/snappy/1.1.3/include
 
 # Wildcards to build everything in the src/ directory 
 MAINSOURCEDIR := ./src
@@ -22,12 +22,12 @@ OBJECTS = $(patsubst src/%.cpp, build/%.o, $(SOURCES))
 all: blockchain
 
 blockchain: $(OBJECTS)
-	$(CC) $(CFLAGS) $(BOOSTHEADERS) $(LEVELDBHEADERS) $(OBJECTS) -o blockchain.out $(BOOSTLIBDIR) $(LEVELDBLIBDIR) $(SNAPPYLIBDIR)
+	$(CC) $(CFLAGS) $(BOOST_HEADERS) $(LEVEL_DB_HEADERS) $(OBJECTS) -o blockchain.out $(BOOST_SERIAL_LIB_DIR) $(LEVELDB_LIB_DIR) $(SNAPPY_LIB_DIR)
 
 build/%.o: src/%.cpp
-	$(CC) $(CFLAGS) $(BOOSTHEADERS) $(LEVELDBHEADERS) $(SNAPPYHEADERS) -c $< -o $@
+	$(CC) $(CFLAGS) $(BOOST_HEADERS) $(LEVELDB_HEADERS) $(SNAPPY_HEADERS) -c $< -o $@
 	
 clean:
 	rm blockchain.out
 	rm ./build/*.o
-	rm -rf /tmp/test_blockchain_db
+	rm -rf /tmp/blocks
