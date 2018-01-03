@@ -13,14 +13,18 @@ const std::string database_location = "/tmp/blocks";
 /*
     
 */
-Blockchain::Blockchain(){
-    Database blocks_db = Database(database_location);
+Blockchain::Blockchain() : blockchain_db(database_location) {
+    // blockchain_db = Database(database_location);
     SerializationWrapper serializer = SerializationWrapper();
-    Block genesis_block = generate_genesis_block();
-    nlohmann::json block_data = serializer.serialize_block(genesis_block);
-    std::cout << "Block data is: " << block_data << std::endl;
-    database.write_genesis_block(genesis_block);
+    if (!blockchain_db.check_genesis()){
+        std::cout<<"No genesis block found, mining one..."<<std::endl;
+        Block genesis_block = generate_genesis_block();
+    }
+    else{
+        std::cout<<"Genesis block found"<<std::endl;
+    }
 }
+
 
 Block Blockchain::new_block(std::string data){
     Block spawn_block(tip, data);
@@ -32,8 +36,8 @@ Block Blockchain::new_block(std::string data){
     spawn_block.reset_hash(std::get<1>(pow_results));
     SerializationWrapper serial;
     nlohmann::json serialized_block_data = serial.serialize_block(spawn_block);
-    // blockchain_db->Put(leveldb::WriteOptions(), data, serialized_block_data.dump());
     tip = spawn_block.get_block_hash();
+    blockchain_db.write_block(spawn_block);
     return spawn_block;
 }
 
@@ -47,9 +51,6 @@ Block Blockchain::generate_genesis_block(){
     genesis_block.reset_hash(std::get<1>(pow_results));
     SerializationWrapper serial;
     nlohmann::json serialized_block_data = serial.serialize_block(genesis_block);
+    blockchain_db.write_block(genesis_block);
     return genesis_block;
-}
-
-leveldb::DB* Blockchain::get_database(){
-    return blockchain_db;
 }

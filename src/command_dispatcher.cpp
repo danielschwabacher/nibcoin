@@ -31,21 +31,20 @@ int CommandDispatcher::run_add_block(){
     std::cout<<"Enter block data to store: ";
     std::cin.ignore();
     std::getline(std::cin, block_data); 
-    chain_context->new_block(block_data);
+    // chain_context->new_block(block_data);
     return 0;
 }
 
 int CommandDispatcher::run_print_chain(){
-    leveldb::DB *db_context = chain_context->get_database();
-    BlockchainIterator printer(db_context);
-    printer.print_all_kv();
+    // BlockchainIterator printer(db_context);
+    // printer.print_all_kv();
     return 0;
 }
 
 int CommandDispatcher::run_delete_chain(){
-    leveldb::DB *db_context = chain_context->get_database();
+    // leveldb::DB *db_context = chain_context->get_database();
     system("rm -rf /tmp/blocks");
     std::cout<<"Database and block chain deleted!"<<std::endl;
-    delete db_context;
+    // delete db_context;
     exit(0);
 }
