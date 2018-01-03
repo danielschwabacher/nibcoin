@@ -27,12 +27,28 @@ void BlockchainIterator::print_all_kv(){
     return;
 }
 
+/*
+    Nicely display the objects in the block chain. 
+    Note: expensive for long chains, reconstructs 
+    each block in the chain and then pulls relevant data from them
+*/
 void BlockchainIterator::pretty_print(){
-    std::string json_string;
+    DeserializationWrapper deserial = DeserializationWrapper();
+    nlohmann::json json_block_data;
+    std::cout << "Blockchain Data" << std::endl;
     for (blockchain_iterator->SeekToFirst(); blockchain_iterator->Valid(); blockchain_iterator->Next()){
-        json_string += blockchain_iterator->value().ToString();
+        if (blockchain_iterator->key().ToString() != "l"){
+            std::cout<<"------------------------"<<std::endl;
+            std::cout<<"Block: "<<blockchain_iterator->key().ToString()<<std::endl;
+            json_block_data = nlohmann::json::parse(blockchain_iterator->value().ToString());
+            Block restored = deserial.deserialize_block(json_block_data);
+            std::cout<<"Block data: " << restored.get_data() << std::endl;
+            std::cout<<"Block timestamp: " << restored.get_timestamp() << std::endl;
+            std::cout<<"Block nonce: " << restored.get_nonce() << std::endl;
+            std::cout<<"Block previous hash: " << restored.get_prev_hash() << std::endl;
+        }
     }
-    auto parsed_string = nlohmann::json::parse(json_string);
-    std::cout << parsed_string.dump(4) << std::endl;
+    std::cout<<"------------------------"<<std::endl;    
+    std::cout<<"END OF CHAIN"<<std::endl;
     return;
 }
