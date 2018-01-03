@@ -68,9 +68,8 @@ std::pair<int, std::string> Proofer::run_pow(){
         hash = sha256(block_data);
         hash_substring = hash.substr(0, target);
         if (is_valid_substring(hash_substring)){
-            std::cout<<"Found a valid nonce: "<<nonce<<std::endl;
-            std::cout<<"hash is: "<<hash<<std::endl;
             return_value = std::make_pair(nonce, hash);
+            std::cout<<"Block mined!"<<std::endl;
             return return_value;
         }
         nonce++;
