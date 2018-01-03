@@ -22,7 +22,6 @@ int main(){
     while (true){
         std::cout<<"Enter a command: ";
         std::cin >> command;
-        std::cout<<"Entered: " << command << std::endl;
         if (command == "stop")
             exit(0);
         else if (command == "exit")
@@ -35,6 +34,8 @@ int main(){
             dispatch.run_print_chain();
         else if (command == "delete_chain")
             dispatch.run_delete_chain();
+        else if (command == "help")
+            dispatch.print_help();
         else{
             std::cout<<"Invalid input, try again"<<std::endl;
         }
