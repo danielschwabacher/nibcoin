@@ -64,3 +64,8 @@ std::string Database::get_last_hash_value(){
     database->Get(leveldb::ReadOptions(), "l", &last_hash);
     return last_hash;
 }
+
+int Database::delete_database(){
+    delete database;
+    return 0;
+}
