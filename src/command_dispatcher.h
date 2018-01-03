@@ -16,6 +16,7 @@ class CommandDispatcher{
         int run_add_block();
         int run_print_chain();
         int run_delete_chain();
+        int print_help();
 };
 
 #endif

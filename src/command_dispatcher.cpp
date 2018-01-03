@@ -52,3 +52,12 @@ int CommandDispatcher::run_delete_chain(){
     std::cout<<"Database and block chain deleted!"<<std::endl;
     exit(0);
 }
+
+int CommandDispatcher::print_help(){
+    std::cout<<"---Supported Commands---"<<std::endl;
+    std::cout<<"<add_block>: Add a new block to the blockchain"<<std::endl;
+    std::cout<<"<delete_chain>: Deletes the blockchain and the associated data"<<std::endl;
+    std::cout<<"<print_chain>: Prints out the blockchain structure."<<std::endl;
+    std::cout<<"<help>: Show this help menu."<<std::endl;
+    return 0;
+}
