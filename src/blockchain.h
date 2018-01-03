@@ -20,6 +20,7 @@ class Blockchain{
         Blockchain();        
         Block new_block(std::string data);
         Block generate_genesis_block();
+        Database get_database();
 };
 
 #endif

@@ -52,5 +52,10 @@ Block Blockchain::generate_genesis_block(){
     SerializationWrapper serial;
     nlohmann::json serialized_block_data = serial.serialize_block(genesis_block);
     blockchain_db.write_block(genesis_block);
+    tip = genesis_block.get_block_hash();
     return genesis_block;
+}
+
+Database Blockchain::get_database(){
+    return blockchain_db;
 }
