@@ -6,18 +6,22 @@
 #include "chain_iterator.h"
 #include "command_dispatcher.h"
 #include "../lib/json.hpp"
+#include <stdlib.h>
 
 /*
 
 */
-int main(){ 
-    Blockchain primary_blockchain;
-    // primary_blockchain.new_block("First block");
-    // primary_blockchain.new_block("Second block");
-    // leveldb::DB *primary_database = primary_blockchain.get_database();
-    // BlockchainIterator printer(primary_database);
-    // printer.print_all_kv();
+int main(int argc, char** argv){ 
+    if (argc != 3){
+        std::cout<<"Usage: ./blockchain.out <number of leading zeros in hash> <database location>"<<std::endl;
+        exit(0);
+    }
+    int converted_zeros = atoi(argv[1]);
+    std::string database_location = argv[2];
+
+    Blockchain primary_blockchain(converted_zeros, database_location);
     CommandDispatcher dispatch(&primary_blockchain);
+
     std::string command;
     while (true){
         std::cout<<"Enter a command: ";
