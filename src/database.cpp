@@ -57,3 +57,10 @@ int Database::write_block(Block block_to_write){
     has_genesis = true;
     return 0;
 }
+
+
+std::string Database::get_last_hash_value(){
+    std::string last_hash;
+    database->Get(leveldb::ReadOptions(), "l", &last_hash);
+    return last_hash;
+}

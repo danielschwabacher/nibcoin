@@ -21,6 +21,7 @@ class Database{
         int write_data(std::string key, std::string value);
         std::string get_data(std::string key);
         int write_block(Block block_to_write);
+        std::string get_last_hash_value();
 };
 #endif
 

@@ -23,6 +23,7 @@ Blockchain::Blockchain() : blockchain_db(database_location) {
     else{
         std::cout<<"Genesis block found"<<std::endl;
     }
+    tip = blockchain_db.get_last_hash_value();
 }
 
 
