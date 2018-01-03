@@ -1,26 +1,31 @@
 #include "blockchain.h"
 #include "block.h"
 #include "proofer.h"
+#include "database.h"
 #include "Serialization.h"
 #include "../lib/json.hpp"
 #include <string>
 #include <cassert>
-#include <leveldb/db.h>
 
 const int TARGET_ZEROS = 2;
+const std::string database_location = "/tmp/blocks";
 
 /*
     
 */
-Blockchain::Blockchain(){
-    leveldb::Options options;
-    options.create_if_missing = true;
-    options.error_if_exists = false;
-    leveldb::Status status = leveldb::DB::Open(options, "/tmp/blocks", &blockchain_db);
-    assert(status.ok());
-    Block genesis_block = generate_genesis_block();
-    tip = genesis_block.get_block_hash();
+Blockchain::Blockchain() : blockchain_db(database_location) {
+    // blockchain_db = Database(database_location);
+    SerializationWrapper serializer = SerializationWrapper();
+    if (!blockchain_db.check_genesis()){
+        std::cout<<"No genesis block found, mining one..."<<std::endl;
+        Block genesis_block = generate_genesis_block();
+    }
+    else{
+        std::cout<<"Genesis block found"<<std::endl;
+    }
+    tip = blockchain_db.get_last_hash_value();
 }
+
 
 Block Blockchain::new_block(std::string data){
     Block spawn_block(tip, data);
@@ -32,8 +37,8 @@ Block Blockchain::new_block(std::string data){
     spawn_block.reset_hash(std::get<1>(pow_results));
     SerializationWrapper serial;
     nlohmann::json serialized_block_data = serial.serialize_block(spawn_block);
-    blockchain_db->Put(leveldb::WriteOptions(), data, serialized_block_data.dump());
     tip = spawn_block.get_block_hash();
+    blockchain_db.write_block(spawn_block);
     return spawn_block;
 }
 
@@ -47,10 +52,11 @@ Block Blockchain::generate_genesis_block(){
     genesis_block.reset_hash(std::get<1>(pow_results));
     SerializationWrapper serial;
     nlohmann::json serialized_block_data = serial.serialize_block(genesis_block);
-    blockchain_db->Put(leveldb::WriteOptions(), "Genesis block", serialized_block_data.dump());
+    blockchain_db.write_block(genesis_block);
+    tip = genesis_block.get_block_hash();
     return genesis_block;
 }
 
-leveldb::DB* Blockchain::get_database(){
+Database Blockchain::get_database(){
     return blockchain_db;
 }

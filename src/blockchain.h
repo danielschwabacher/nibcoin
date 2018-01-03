@@ -2,7 +2,9 @@
 #include <iostream>
 #include <vector>
 #include "block.h"
+#include "database.h"
 #include <leveldb/db.h>
+
 
 #ifndef BLOCKCHAIN_INC 
 #define BLOCKCHAIN_INC
@@ -11,14 +13,14 @@
 */
 class Blockchain{
     private:
-        leveldb::DB *blockchain_db;
+        Database blockchain_db;
         // last block hash in DB
         std::string tip;
     public:
         Blockchain();        
         Block new_block(std::string data);
         Block generate_genesis_block();
-        leveldb::DB *get_database();
+        Database get_database();
 };
 
 #endif

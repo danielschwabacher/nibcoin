@@ -33,6 +33,8 @@ int main(){
             dispatch.run_add_block();
         else if (command == "print_chain")
             dispatch.run_print_chain();
+        else if (command == "delete_chain")
+            dispatch.run_delete_chain();
         else{
             std::cout<<"Invalid input, try again"<<std::endl;
         }
