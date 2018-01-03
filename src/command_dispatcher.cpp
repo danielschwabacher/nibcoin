@@ -3,6 +3,7 @@
 #include "Serialization.h"
 #include "command_dispatcher.h"
 #include "chain_iterator.h"
+#include "database.h"
 #include <string>
 #include <cassert>
 #include <leveldb/db.h>
@@ -27,24 +28,27 @@ CommandDispatcher::CommandDispatcher(Blockchain *context){
     Run the command the CommandDispatcher holds in context. 
 */
 int CommandDispatcher::run_add_block(){
+    Database curr_db = chain_context->get_database();
     std::string block_data;
     std::cout<<"Enter block data to store: ";
     std::cin.ignore();
     std::getline(std::cin, block_data); 
-    // chain_context->new_block(block_data);
+    chain_context->new_block(block_data);
     return 0;
 }
 
 int CommandDispatcher::run_print_chain(){
-    // BlockchainIterator printer(db_context);
-    // printer.print_all_kv();
+    // The first get_database call returns the Database object in the Blockchain context
+    // The second one returns the actual leveldb pointer
+    leveldb::DB *curr_db = chain_context->get_database().get_database();
+    BlockchainIterator printer(curr_db);
+    printer.print_all_kv();
     return 0;
 }
 
 int CommandDispatcher::run_delete_chain(){
-    // leveldb::DB *db_context = chain_context->get_database();
+    Database curr_db = chain_context->get_database();    
     system("rm -rf /tmp/blocks");
     std::cout<<"Database and block chain deleted!"<<std::endl;
-    // delete db_context;
     exit(0);
 }
