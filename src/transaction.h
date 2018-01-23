@@ -34,9 +34,10 @@ class Transaction{
         std::vector<TransactionInput> transaction_inputs;
         std::vector<TransactionOutput> transaction_outputs;
     public:
+        Transaction();        
         Transaction(std::string id, std::vector<TransactionInput> inputs, std::vector<TransactionOutput> outputs);
         // A coinbase TX only has input
-        Transaction *new_coinbase_tx(std::string to, std::string data);
+        Transaction new_coinbase_tx(std::string to, std::string data);
         std::string get_tx_string();
 };
 

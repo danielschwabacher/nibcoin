@@ -33,6 +33,7 @@ class Block{
         Block(std::time_t block_timestamp, Transaction txs, std::string prv_hash, std::string current_hash, int block_nonce);            
         std::time_t get_timestamp();
         Transaction get_transactions();
+        std::string get_transaction_string();
         std::string get_prev_hash();
         std::string get_block_hash();
         int get_nonce();

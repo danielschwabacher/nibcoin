@@ -51,6 +51,10 @@ std::string Block::get_block_hash(){
     return block_hash;    
 }
 
+std::string Block::get_transaction_string(){
+    return transactions.get_tx_string();    
+}
+
 int Block::get_nonce(){
     return nonce;
 }

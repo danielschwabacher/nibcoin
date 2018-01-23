@@ -22,7 +22,9 @@ Blockchain::Blockchain(int leading_zeros, std::string db_loc) : blockchain_db(db
 
 
 Block Blockchain::new_block(std::string data){
-    Block spawn_block(tip, data);
+    Transaction cb;
+    Transaction cb_tx = cb.new_coinbase_tx("me", "hello tx");
+    Block spawn_block(tip, cb_tx);
     Proofer proof_of_work(&spawn_block, target_zeros);
     std::pair<int, std::string> pow_results = proof_of_work.run_pow();
     // Reset block nonce to contain a valid nonce
@@ -37,7 +39,9 @@ Block Blockchain::new_block(std::string data){
 }
 
 Block Blockchain::generate_genesis_block(){
-    Block genesis_block("Genesis block");
+    Transaction cb;
+    Transaction cb_tx = cb.new_coinbase_tx("me", "hello tx");
+    Block genesis_block(cb_tx);
     Proofer proof_of_work(&genesis_block, target_zeros);
     std::pair<int, std::string> pow_results = proof_of_work.run_pow();
     // Reset block nonce to contain a valid nonce

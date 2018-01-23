@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include "block.h"
+#include "transaction.h"
 #include "../lib/json.hpp"
 
 #ifndef SERIALIZER_INC

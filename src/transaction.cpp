@@ -1,6 +1,15 @@
 #include "transaction.h"
 
 const int SUBSIDY = 10;
+
+Transaction::Transaction(){
+    std::vector<TransactionInput> inputs_vector;
+    std::vector<TransactionOutput> outputs_vector;
+    transaction_id = "cb";
+    transaction_inputs = inputs_vector;
+    transaction_outputs = outputs_vector;
+}
+
 /*
 */
 Transaction::Transaction(std::string id, std::vector<TransactionInput> inputs, std::vector<TransactionOutput> outputs){
@@ -27,7 +36,7 @@ TransactionInput::TransactionInput(std::string prev_output_txid, std::string sig
 }
 
 
-Transaction *Transaction::new_coinbase_tx(std::string to, std::string data){
+Transaction Transaction::new_coinbase_tx(std::string to, std::string data){
     TransactionInput txin("null", data, -1);
     TransactionOutput txout(SUBSIDY, to);
     std::vector<TransactionInput> inputs_vector;
@@ -35,5 +44,5 @@ Transaction *Transaction::new_coinbase_tx(std::string to, std::string data){
     inputs_vector.push_back(txin);
     outputs_vector.push_back(txout);
     static Transaction cb_transaction = Transaction("coinbase_tx", inputs_vector, outputs_vector);
-    return &cb_transaction;
+    return cb_transaction;
 }
