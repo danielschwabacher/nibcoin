@@ -4,7 +4,7 @@
 #include <fstream>
 
 #include "block.h"
-#include "Serialization.h"
+#include "serialization.h"
 
 #include "../lib/json.hpp"
 

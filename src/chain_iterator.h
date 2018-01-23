@@ -5,7 +5,7 @@
 
 #include "block.h"
 #include "blockchain.h"
-#include "Serialization.h"
+#include "serialization.h"
 
 #include "../lib/json.hpp"
 

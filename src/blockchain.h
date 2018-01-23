@@ -6,7 +6,7 @@
 
 #include "block.h"
 #include "database.h"
-#include "Serialization.h"
+#include "serialization.h"
 #include "proofer.h"
 
 #include "../lib/json.hpp"

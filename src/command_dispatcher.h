@@ -8,7 +8,7 @@
 #include "chain_iterator.h"
 #include "block.h"
 #include "database.h"
-#include "Serialization.h"
+#include "serialization.h"
 
 
 #ifndef CMD_DISPATCH 
