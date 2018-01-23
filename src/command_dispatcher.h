@@ -1,9 +1,15 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <cassert>
 #include <leveldb/db.h>
+
 #include "blockchain.h"
+#include "chain_iterator.h"
 #include "block.h"
+#include "database.h"
+#include "Serialization.h"
+
 
 #ifndef CMD_DISPATCH 
 #define CMD_DISPATCH

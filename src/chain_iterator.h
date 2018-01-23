@@ -1,8 +1,13 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "block.h"
 #include <leveldb/db.h>
+
+#include "block.h"
+#include "blockchain.h"
+#include "Serialization.h"
+
+#include "../lib/json.hpp"
 
 #ifndef CHAINITER_INC 
 #define CHAINITER_INC

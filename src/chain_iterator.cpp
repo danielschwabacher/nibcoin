@@ -1,11 +1,4 @@
-#include "blockchain.h"
-#include "block.h"
-#include "Serialization.h"
-#include "../lib/json.hpp"
 #include "chain_iterator.h"
-#include <string>
-#include <leveldb/db.h>
-
 
 /*
     BlockchainIterator is responsible for returning or displaying 

@@ -1,10 +1,4 @@
-#include "block.h"
 #include "proofer.h"
-#include "../lib/sha256.h"
-#include <bitset>  
-#include <string>
-#include <tuple>
-#include <climits>
 
 /*
     The following PoW algoritihm is based on Hashcash. To prove a block has done the nessecary amount of work 

@@ -1,10 +1,4 @@
 #include "block.h"
-#include "proofer.h"
-#include "../lib/sha256.h"
-#include <string>
-#include <ctime>
-#include "../lib/json.hpp"
-
 
 /*
     Standard block constructor, used when creating blocks based on 

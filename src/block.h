@@ -1,5 +1,9 @@
 #include <string>
 #include <iostream>
+#include <ctime>
+
+#include "../lib/json.hpp"
+#include "../lib/sha256.h"
 
 #ifndef BLOCK_INC
 #define BLOCK_INC

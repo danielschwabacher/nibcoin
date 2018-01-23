@@ -3,12 +3,8 @@
 #include <leveldb/db.h>
 #include <stdlib.h>
 
-#include "block.h"
-#include "blockchain.h"
-#include "Serialization.h"
-#include "chain_iterator.h"
 #include "command_dispatcher.h"
-#include "../lib/json.hpp"
+
 
 /*
 

@@ -1,9 +1,16 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <cassert>
+#include <leveldb/db.h>
+
 #include "block.h"
 #include "database.h"
-#include <leveldb/db.h>
+#include "Serialization.h"
+#include "proofer.h"
+
+#include "../lib/json.hpp"
+
 
 
 #ifndef BLOCKCHAIN_INC 

@@ -1,12 +1,4 @@
 #include "blockchain.h"
-#include "block.h"
-#include "proofer.h"
-#include "database.h"
-#include "Serialization.h"
-#include "../lib/json.hpp"
-#include <string>
-#include <cassert>
-
 
 // const int TARGET_ZEROS = 4;
 // const std::string database_location = "/tmp/blocks";

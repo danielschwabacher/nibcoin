@@ -1,12 +1,6 @@
-#include "blockchain.h"
-#include "block.h"
-#include "Serialization.h"
 #include "command_dispatcher.h"
-#include "chain_iterator.h"
-#include "database.h"
-#include <string>
-#include <cassert>
-#include <leveldb/db.h>
+
+
 
 /*
     A CommandDispatcher handles running operations entered 

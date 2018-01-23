@@ -1,7 +1,4 @@
 #include "Serialization.h"
-#include "block.h"
-#include <string>
-#include "../lib/json.hpp"
 
 SerializationWrapper::SerializationWrapper(){
 
