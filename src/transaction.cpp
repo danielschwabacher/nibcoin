@@ -9,6 +9,12 @@ Transaction::Transaction(std::string id, std::vector<TransactionInput> inputs, s
     transaction_outputs = outputs;
 }
 
+
+std::string Transaction::get_tx_string(){
+    return transaction_id;
+}
+
+
 TransactionOutput::TransactionOutput(int v, std::string pub_key){
     value = v;
     public_key = pub_key;

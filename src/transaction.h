@@ -2,9 +2,6 @@
 #include <iostream>
 #include <vector>
 
-#include "block.h"
-#include "serialization.h"
-
 #ifndef TX_INC
 #define TX_INC
 
@@ -40,6 +37,7 @@ class Transaction{
         Transaction(std::string id, std::vector<TransactionInput> inputs, std::vector<TransactionOutput> outputs);
         // A coinbase TX only has input
         Transaction *new_coinbase_tx(std::string to, std::string data);
+        std::string get_tx_string();
 };
 
 #endif

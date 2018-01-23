@@ -2,8 +2,11 @@
 #include <iostream>
 #include <ctime>
 
+#include "transaction.h"
+
 #include "../lib/json.hpp"
 #include "../lib/sha256.h"
+
 
 #ifndef BLOCK_INC
 #define BLOCK_INC
@@ -20,16 +23,16 @@
 class Block{
     private:
         std::time_t timestamp;
-        std::string data;
+        Transaction transactions;
         std::string previous_hash;
         std::string block_hash;
         int nonce;
     public:
-        Block(std::string prv_hash, std::string block_data);
-        Block(std::string block_data);
-        Block(std::time_t block_timestamp, std::string block_data, std::string prv_hash, std::string current_hash, int block_nonce);            
+        Block(std::string prv_hash, Transaction txs);
+        Block(Transaction txs);
+        Block(std::time_t block_timestamp, Transaction txs, std::string prv_hash, std::string current_hash, int block_nonce);            
         std::time_t get_timestamp();
-        std::string get_data();
+        Transaction get_transactions();
         std::string get_prev_hash();
         std::string get_block_hash();
         int get_nonce();
