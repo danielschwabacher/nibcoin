@@ -18,6 +18,16 @@ Transaction::Transaction(std::string id, std::vector<TransactionInput> inputs, s
     transaction_outputs = outputs;
 }
 
+/*
+    Constructor for single Inputs and Outputs. Automatically populates the TX vectors with these values.
+*/
+Transaction::Transaction(std::string id, TransactionInput input, TransactionOutput output){
+    transaction_id = id;
+    transaction_inputs.push_back(input); 
+    transaction_outputs.push_back(output);
+};
+
+
 
 std::string Transaction::get_tx_string(){
     return transaction_id;
