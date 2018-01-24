@@ -22,14 +22,14 @@ int main(int argc, char** argv){
 
     std::string command;
     while (true){
-        std::cout<<"Enter a command: ";
+        std::cout<<"Enter a command, <help> for help menu: ";
         std::getline(std::cin, command);     
         command.erase(std::remove(command.begin(), command.end(), ' '), command.end()); 
         if (command == "stop")
             exit(0);
         else if (command == "exit")
             exit(0);
-        else if (command == "quit")
+        else if (command == "quit" || command == "q")
             exit(0);
         else if (command == "add_block" || command == "a")
             dispatch.run_add_block();
