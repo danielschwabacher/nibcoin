@@ -11,8 +11,11 @@ Blockchain::Blockchain(int leading_zeros, std::string db_loc) : blockchain_db(db
     db_location = db_loc;
     SerializationWrapper serializer = SerializationWrapper();
     if (!blockchain_db.check_genesis()){
-        std::cout<<"No genesis block found, mining one..."<<std::endl;
-        Block genesis_block = generate_genesis_block();
+        std::string genesis_reward_addr;
+        std::cout<<"No genesis block found, specify reward address for mining: ";
+        std::cin.ignore();
+        std::getline(std::cin, genesis_reward_addr);
+        Block genesis_block = generate_genesis_block(genesis_reward_addr);
     }
     else{
         std::cout<<"Genesis block found"<<std::endl;
@@ -20,11 +23,8 @@ Blockchain::Blockchain(int leading_zeros, std::string db_loc) : blockchain_db(db
     tip = blockchain_db.get_last_hash_value();
 }
 
-
-Block Blockchain::new_block(std::string data){
-    Transaction cb;
-    Transaction cb_tx = cb.new_coinbase_tx("me", "hello tx");
-    Block spawn_block(tip, cb_tx);
+Block Blockchain::new_block(Transaction txs){
+    Block spawn_block(tip, txs);
     Proofer proof_of_work(&spawn_block, target_zeros);
     std::pair<int, std::string> pow_results = proof_of_work.run_pow();
     // Reset block nonce to contain a valid nonce
@@ -38,9 +38,9 @@ Block Blockchain::new_block(std::string data){
     return spawn_block;
 }
 
-Block Blockchain::generate_genesis_block(){
-    Transaction cb;
-    Transaction cb_tx = cb.new_coinbase_tx("me", "hello tx");
+Block Blockchain::generate_genesis_block(std::string gen_reward_addr){
+    Transaction coinbase_tx_holder;
+    Transaction cb_tx = coinbase_tx_holder.new_coinbase_tx(gen_reward_addr, "Coinbase TX");
     Block genesis_block(cb_tx);
     Proofer proof_of_work(&genesis_block, target_zeros);
     std::pair<int, std::string> pow_results = proof_of_work.run_pow();

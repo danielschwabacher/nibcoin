@@ -8,6 +8,7 @@
 #include "database.h"
 #include "serialization.h"
 #include "proofer.h"
+#include "transaction.h"
 
 #include "../lib/json.hpp"
 
@@ -27,8 +28,8 @@ class Blockchain{
         std::string db_location;
     public:
         Blockchain(int leading_zeros, std::string db_loc);        
-        Block new_block(std::string data);
-        Block generate_genesis_block();
+        Block new_block(Transaction txs);
+        Block generate_genesis_block(std::string gen_reward_addr);
         Database get_database();
         std::string get_db_location();
 };
