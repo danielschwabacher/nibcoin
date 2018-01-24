@@ -9,6 +9,7 @@
 #include "block.h"
 #include "database.h"
 #include "serialization.h"
+#include "transaction.h"
 
 
 #ifndef CMD_DISPATCH 

@@ -23,11 +23,18 @@ CommandDispatcher::CommandDispatcher(Blockchain *context){
 */
 int CommandDispatcher::run_add_block(){
     Database curr_db = chain_context->get_database();
-    std::string block_data;
-    std::cout<<"Enter block data to store: ";
+    std::string output_val;
+    std::string output_addr;
+    std::cout<<"Number of coins to send: ";
     std::cin.ignore();
-    std::getline(std::cin, block_data); 
-    chain_context->new_block(block_data);
+    std::getline(std::cin, output_val); 
+    std::cout<<"Address to send to: ";
+    std::cin.ignore();
+    std::getline(std::cin, output_addr);
+    TransactionOutput output_tx(stoi(output_val), output_addr);
+    TransactionInput input_tx("prev", "sig", 1);
+    Transaction blah("new_tx", input_tx, output_tx);
+    chain_context->new_block(blah);
     return 0;
 }
 
@@ -72,10 +79,10 @@ int CommandDispatcher::run_pretty_print(){
 
 int CommandDispatcher::print_help(){
     std::cout<<"---Supported Commands---"<<std::endl;
-    std::cout<<"<add_block>: Add a new block to the blockchain"<<std::endl;
-    std::cout<<"<delete_chain>: Deletes the blockchain and the associated data"<<std::endl;
-    std::cout<<"<dump_chain>: Print out the entire database structure, including internal keys."<<std::endl;
-    std::cout<<"<print_chain>: Nicely display the blockchain contents"<<std::endl;
+    std::cout<<"<add_block> or <a>: Add a new block to the blockchain"<<std::endl;
+    std::cout<<"<delete_chain> or <delete>: Deletes the blockchain and the associated data"<<std::endl;
+    std::cout<<"<dump_chain> or <dump>: Print out the entire database structure, including internal keys."<<std::endl;
+    std::cout<<"<print_chain> or <p>: Nicely display the blockchain contents"<<std::endl;
     std::cout<<"<help>: Show this help menu."<<std::endl;
     return 0;
 }
