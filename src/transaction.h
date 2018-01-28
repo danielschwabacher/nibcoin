@@ -24,6 +24,9 @@ class TransactionInput{
         int vout;
     public:
         TransactionInput(std::string prev_output_txid, std::string sig, int v_index);
+        std::string get_tx_input_id();
+        std::string get_tx_input_script_signature();
+        int get_tx_input_vout();
 };
 
 /*
@@ -40,6 +43,8 @@ class Transaction{
         // A coinbase TX only has input
         Transaction new_coinbase_tx(std::string to, std::string data);
         std::string get_tx_string();
+        void print_tx_inputs();
+        void print_tx_outputs();
 };
 
 #endif

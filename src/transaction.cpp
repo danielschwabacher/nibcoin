@@ -28,21 +28,24 @@ Transaction::Transaction(std::string id, TransactionInput input, TransactionOutp
 };
 
 
-
 std::string Transaction::get_tx_string(){
     return transaction_id;
 }
 
-
-TransactionOutput::TransactionOutput(int v, std::string pub_key){
-    value = v;
-    public_key = pub_key;
+// Simplifies printing the inputs and ouputs
+void Transaction::print_tx_inputs(){
+    std::cout << "TRANSCATION INPUTS" << std::endl;
+    for(auto i : transaction_inputs){
+        std::cout << "TX ID: " << i.get_tx_input_id() << std::endl;
+        std::cout << "Script signature: " << i.get_tx_input_script_signature() << std::endl;
+        std::cout << "TX ID: " << i.get_tx_input_vout() << std::endl;
+    } 
 }
 
-TransactionInput::TransactionInput(std::string prev_output_txid, std::string sig, int v_index){
-    tx_id = prev_output_txid;
-    script_signature = sig;
-    vout = v_index;
+
+
+void Transaction::print_tx_outputs(){
+    return;
 }
 
 
@@ -55,4 +58,35 @@ Transaction Transaction::new_coinbase_tx(std::string to, std::string data){
     outputs_vector.push_back(txout);
     static Transaction cb_transaction = Transaction("coinbase_tx", inputs_vector, outputs_vector);
     return cb_transaction;
+}
+
+
+TransactionOutput::TransactionOutput(int v, std::string pub_key){
+    value = v;
+    public_key = pub_key;
+}
+
+
+
+
+TransactionInput::TransactionInput(std::string prev_output_txid, std::string sig, int v_index){
+    tx_id = prev_output_txid;
+    script_signature = sig;
+    vout = v_index;
+}
+
+
+/*
+    Getters for TransactionInput
+*/
+std::string TransactionInput::get_tx_input_id(){
+    return tx_id;
+}
+
+std::string TransactionInput::get_tx_input_script_signature(){
+    return script_signature;
+}
+
+int TransactionInput::get_tx_input_vout(){
+    return vout;
 }
