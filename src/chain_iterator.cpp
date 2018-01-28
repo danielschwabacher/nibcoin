@@ -39,8 +39,10 @@ void BlockchainIterator::pretty_print(){
             std::cout<<"Block timestamp: " << restored.get_timestamp() << std::endl;
             std::cout<<"Block nonce: " << restored.get_nonce() << std::endl;
             std::cout<<"Block previous hash: " << restored.get_prev_hash() << std::endl;
-            std::cout<<"-- START Block transaction data -- " << std::endl;
+            std::cout<<"----- START Block transaction data ----- " << std::endl;
             restored.get_transactions().print_tx_inputs();
+            restored.get_transactions().print_tx_outputs();
+            std::cout<<"----- END Block transaction data ----- " << std::endl;
         }
     }
     std::cout<<"------------------------"<<std::endl;    
