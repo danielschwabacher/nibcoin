@@ -13,7 +13,6 @@ Blockchain::Blockchain(int leading_zeros, std::string db_loc) : blockchain_db(db
     if (!blockchain_db.check_genesis()){
         std::string genesis_reward_addr;
         std::cout<<"No genesis block found, specify reward address for mining: ";
-        std::cin.ignore();
         std::getline(std::cin, genesis_reward_addr);
         Block genesis_block = generate_genesis_block(genesis_reward_addr);
     }
