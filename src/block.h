@@ -40,5 +40,7 @@ class Block{
         std::string set_hash();
         void reset_hash(std::string new_hash);
         void set_nonce(int valid_nonce);
+        void to_json(nlohmann::json& j, const Block& block_to_serialize);
+        void from_json(const nlohmann::json& j, Block& deserialize_block);
 };
 #endif

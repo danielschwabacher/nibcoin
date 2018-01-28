@@ -82,3 +82,24 @@ void Block::set_nonce(int valid_nonce){
 void Block::reset_hash(std::string new_hash){
     block_hash = new_hash;
 }
+
+/*
+Possible simplified way of serializing/deserializing
+void Block::to_json(nlohmann::json& j, const Block& block_to_serialize){
+    j = nlohmann::json{
+        {"block_timestamp", block_to_serialize.timestamp},
+        {"prv_hash", block_to_serialize.previous_hash},
+        {"current_hash", block_to_serialize.block_hash},
+        {"block_nonce", block_to_serialize.nonce},
+        {"block_tx_data", block_to_serialize.transactions}
+    };
+}
+
+void Block::from_json(const nlohmann::json& j, Block& deserialize_block){
+    deserialize_block.timestamp = j.at("block_timestamp").get<time_t>();
+    deserialize_block.previous_hash = j.at("prv_hash").get<std::string>();
+    deserialize_block.block_hash = j.at("current_hash").get<std::string>();
+    deserialize_block.nonce = j.at("block_nonce").get<int>();
+    deserialize_block.transactions = j.at("block_tx_data").get<Transaction>();
+}
+*/
