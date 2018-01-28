@@ -31,7 +31,7 @@ int CommandDispatcher::run_add_block(){
     std::cout<<"Address to send to: ";
     std::cin.ignore();
     std::getline(std::cin, output_addr);
-    TransactionOutput output_tx(stoi(output_val), output_addr);
+    TransactionOutput output_tx(atoi(output_val.c_str()), output_addr);
     TransactionInput input_tx("prev", "sig", 1);
     Transaction blah("new_tx", input_tx, output_tx);
     chain_context->new_block(blah);
