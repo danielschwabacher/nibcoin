@@ -50,7 +50,11 @@ void Transaction::print_tx_inputs(){
 }
 
 void Transaction::print_tx_outputs(){
-    return;
+    std::cout << "TRANSCATION OUTPUTS" << std::endl;
+    for(auto i : transaction_outputs){
+        std::cout << "Value: " << i.get_tx_output_value() << std::endl;
+        std::cout << "Public key: " << i.get_tx_output_pubkey() << std::endl;
+    } 
 }
 
 
