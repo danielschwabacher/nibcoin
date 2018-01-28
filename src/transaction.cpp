@@ -32,6 +32,13 @@ std::string Transaction::get_tx_string(){
     return transaction_id;
 }
 
+std::vector<TransactionInput> Transaction::get_tx_inputs(){
+    return transaction_inputs;
+}
+
+std::vector<TransactionOutput> Transaction::get_tx_outputs(){
+    return transaction_outputs;
+}
 // Simplifies printing the inputs and ouputs
 void Transaction::print_tx_inputs(){
     std::cout << "TRANSCATION INPUTS" << std::endl;
@@ -41,8 +48,6 @@ void Transaction::print_tx_inputs(){
         std::cout << "TX ID: " << i.get_tx_input_vout() << std::endl;
     } 
 }
-
-
 
 void Transaction::print_tx_outputs(){
     return;
@@ -66,7 +71,13 @@ TransactionOutput::TransactionOutput(int v, std::string pub_key){
     public_key = pub_key;
 }
 
+int TransactionOutput::get_tx_output_value(){
+    return value;
+}
 
+std::string TransactionOutput::get_tx_output_pubkey(){
+    return public_key;
+}
 
 
 TransactionInput::TransactionInput(std::string prev_output_txid, std::string sig, int v_index){
@@ -90,3 +101,19 @@ std::string TransactionInput::get_tx_input_script_signature(){
 int TransactionInput::get_tx_input_vout(){
     return vout;
 }
+
+/*
+    Serialization helpers
+*/
+void TransactionInput::to_json(nlohmann::json& j, const TransactionInput& input_tx_to_serialize){
+    j = nlohmann::json{
+        {"script_sig", input_tx_to_serialize.script_signature},
+        {"tx_vout", input_tx_to_serialize.vout}
+    };
+}
+
+void TransactionInput::from_json(const nlohmann::json& j, TransactionInput& deserialize_input_tx){
+    deserialize_input_tx.script_signature = j.at("script_sig").get<std::string>();
+    deserialize_input_tx.vout = j.at("tx_vout").get<int>();
+}
+
