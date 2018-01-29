@@ -6,18 +6,19 @@
 /*
     
 */
-Blockchain::Blockchain(int leading_zeros, std::string db_loc) : blockchain_db(db_loc) {
+Blockchain::Blockchain(int leading_zeros, std::string reward_address, std::string db_loc) : blockchain_db(db_loc) {
     target_zeros = leading_zeros;
     db_location = db_loc;
     SerializationWrapper serializer = SerializationWrapper();
     if (!blockchain_db.check_genesis()){
         std::string genesis_reward_addr;
-        std::cout<<"No genesis block found, specify reward address for mining: ";
-        std::getline(std::cin, genesis_reward_addr);
-        Block genesis_block = generate_genesis_block(genesis_reward_addr);
+        std::cout<<"No genesis block found here!"<<std::endl;
+        Block genesis_block = generate_genesis_block(reward_address);
+        std::cout<<"Created a new blockchain, initial reward address: "<<reward_address<<std::endl;
+        std::cout<<"Blockchain data file can be found in: "<<db_loc<<std::endl;
     }
     else{
-        std::cout<<"Genesis block found"<<std::endl;
+        std::cout<<"Genesis block found, not taking any further action."<<std::endl;
     }
     tip = blockchain_db.get_last_hash_value();
 }
