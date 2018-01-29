@@ -23,6 +23,21 @@ Blockchain::Blockchain(int leading_zeros, std::string reward_address, std::strin
     tip = blockchain_db.get_last_hash_value();
 }
 
+/*
+    Regeneration constructor
+*/
+Blockchain::Blockchain(std::string db_loc) : blockchain_db(db_loc) {
+    db_location = db_loc;
+    SerializationWrapper serializer = SerializationWrapper();
+    if (blockchain_db.check_genesis()){
+        std::cout<<"Blockchain regenerated!"<<std::endl;
+        tip = blockchain_db.get_last_hash_value();
+    }
+    else{
+        std::cout<<"Invalid database location"<<std::endl;
+    }
+}
+
 Block Blockchain::new_block(Transaction txs){
     Block spawn_block(tip, txs);
     Proofer proof_of_work(&spawn_block, target_zeros);
