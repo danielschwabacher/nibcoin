@@ -8,6 +8,11 @@
 
 const int HASH_DIFF = 3;
 
+CommandDispatcher generate_dispatch(std::string db_file_location){
+    Blockchain context(HASH_DIFF, "ignore", db_file_location);
+    return CommandDispatcher(&context);
+}
+
 void CreateCommand(args::Subparser &parser)
 {
     args::Group create_group(parser, "", args::Group::Validators::AllOrNone); 
@@ -63,6 +68,10 @@ void DeleteCommand(args::Subparser &parser)
         std::cout<<"Usage: delete --database=<Database file location>"<<std::endl;
         return;
     }
+    std::string db_loc = args::get(database_delete);    
+    Blockchain context(db_loc);
+    CommandDispatcher current_dispatch(&context);
+    current_dispatch.run_delete_chain();
 }
 
 void PrintCommand(args::Subparser &parser)
@@ -75,7 +84,13 @@ void PrintCommand(args::Subparser &parser)
         std::cout<<"Usage: print --database=<Database file location>"<<std::endl;
         return;
     }
+    
+    std::string db_loc = args::get(database_print);
+    Blockchain context(db_loc);
+    CommandDispatcher current_dispatch(&context);
+    current_dispatch.run_pretty_print();
 }
+
 void DumpCommand(args::Subparser &parser)
 {
     args::Group dump_group(parser, "", args::Group::Validators::AllOrNone);
@@ -86,6 +101,10 @@ void DumpCommand(args::Subparser &parser)
         std::cout<<"Usage: dump --database=<Database file location>"<<std::endl;
         return;
     }
+    std::string db_loc = args::get(database_dump);    
+    Blockchain context(db_loc);
+    CommandDispatcher current_dispatch(&context);
+    current_dispatch.run_dump_chain();
 }
 
 /*
@@ -99,11 +118,11 @@ int main(int argc, char** argv){
     // Handles adding a block to the blockchain
     args::Command add(commands, "add", "Adds a dummy block to the chain containing arbritrary transaction data. Usage: add --txin=<Transaction input> --coins=<Number of coins to send> --database=<Database file location>", &AddCommand);
     // Handles deleting blockchain levelDB files
-    args::Command delete_chain(commands, "delete", "Safely deletes a blockchain LevelDB directory and associated data.", &DeleteCommand);
-    // Handles deleting blockchain levelDB files
-    args::Command print(commands, "print", "Safely deletes a blockchain LevelDB directory and associated data.", &PrintCommand);
-    // Handles deleting blockchain levelDB files
-    args::Command dump(commands, "dump", "Safely deletes a blockchain LevelDB directory and associated data.", &DumpCommand);
+    args::Command delete_chain(commands, "delete", "Safely deletes a blockchain LevelDB directory and associated data. Usage: delete --database=<Database file location>", &DeleteCommand);
+    // Handles pretty printing blockchain levelDB files
+    args::Command print(commands, "print", "Nicely prints out blockchain LevelDB data. Usage: print --database=<Database file location>", &PrintCommand);
+    // Handles dumping blockchain key/values from levelDB files
+    args::Command dump(commands, "dump", "Raw dump of the key/values stored in the blockchain LevelDB file. Usage: dump --database=<Database file location>", &DumpCommand);
     
     args::HelpFlag help(parser, "help", "Display this help menu", {'h', "help"});
     try
