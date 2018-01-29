@@ -146,33 +146,5 @@ int main(int argc, char** argv){
         std::cerr << parser;
         return 1;
     }
-
-    // CommandDispatcher dispatch(&primary_blockchain);
-    /*
-    while (true){
-        std::cout<<"Enter a command, <help> for help menu: ";
-        std::getline(std::cin, command);     
-        command.erase(std::remove(command.begin(), command.end(), ' '), command.end()); 
-        if (command == "stop")
-            exit(0);
-        else if (command == "exit")
-            exit(0);
-        else if (command == "quit" || command == "q")
-            exit(0);
-        else if (command == "add_block" || command == "a")
-            dispatch.run_add_block();
-        else if (command == "dump_chain" || command == "dump")
-            dispatch.run_dump_chain();
-        else if (command == "print_chain" || command == "p")
-            dispatch.run_pretty_print();
-        else if (command == "delete_chain" || command == "delete")
-            dispatch.run_delete_chain(); 
-        else if (command == "help")
-            dispatch.print_help();
-        else{
-            std::cout<<"Invalid input, try again"<<std::endl;
-        }
-    }
-    */
     return 0;
 }
