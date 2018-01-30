@@ -44,7 +44,7 @@ void AddCommand(args::Subparser &parser)
 {
     args::Group add_block_group(parser, "", args::Group::Validators::AllOrNone);
     args::ValueFlag<std::string> send_address(add_block_group, "txin", "Transaction input address.", {"address"});
-    args::ValueFlag<std::string> num_coins(add_block_group, "num_coins", "The number of coins to send.", {"amount"});
+    args::ValueFlag<int> num_coins(add_block_group, "num_coins", "The number of coins to send.", {"amount"});
     args::ValueFlag<std::string> database_add_block(add_block_group, "database", "The LevelDB file to update upon completion.", {"database", "db"});
     parser.Parse();
     if (!send_address){
@@ -61,6 +61,18 @@ void AddCommand(args::Subparser &parser)
         std::cout<<"Missing database"<<std::endl;
         std::cout<<"Usage: add --address=<Transaction input> --amount=<Number of coins to send> --database=<Database file location>"<<std::endl;
         return;
+    }
+    std::string db_loc = args::get(database_add_block);  
+    std::string send_addr = args::get(send_address);
+    int amount = args::get(num_coins);
+
+    if (verify_file(db_loc)){
+        Blockchain context(db_loc);
+        CommandDispatcher current_dispatch(&context);
+        current_dispatch.run_add_block(amount, send_addr);
+    }
+    else{
+        std::cout<<"Invalid database location, no database found in: "<<db_loc<<std::endl;        
     }
 }
 
