@@ -6,9 +6,6 @@
 #include "command_dispatcher.h"
 #include "../lib/args.hxx"
 
-const int HASH_DIFF = 3;
-
-
 bool verify_file(std::string fileName){
     std::ifstream infile(fileName);
     return infile.good();
