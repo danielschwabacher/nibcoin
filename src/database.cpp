@@ -1,9 +1,4 @@
 #include "database.h"
-#include "Serialization.h"
-#include <leveldb/db.h>
-#include <fstream>
-
-
 
 bool file_exists(std::string fileName){
     std::ifstream infile(fileName);

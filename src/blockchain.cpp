@@ -1,12 +1,4 @@
 #include "blockchain.h"
-#include "block.h"
-#include "proofer.h"
-#include "database.h"
-#include "Serialization.h"
-#include "../lib/json.hpp"
-#include <string>
-#include <cassert>
-
 
 // const int TARGET_ZEROS = 4;
 // const std::string database_location = "/tmp/blocks";
@@ -14,23 +6,40 @@
 /*
     
 */
-Blockchain::Blockchain(int leading_zeros, std::string db_loc) : blockchain_db(db_loc) {
+Blockchain::Blockchain(int leading_zeros, std::string reward_address, std::string db_loc) : blockchain_db(db_loc) {
     target_zeros = leading_zeros;
     db_location = db_loc;
     SerializationWrapper serializer = SerializationWrapper();
     if (!blockchain_db.check_genesis()){
-        std::cout<<"No genesis block found, mining one..."<<std::endl;
-        Block genesis_block = generate_genesis_block();
+        std::string genesis_reward_addr;
+        std::cout<<"No genesis block found here!"<<std::endl;
+        Block genesis_block = generate_genesis_block(reward_address);
+        std::cout<<"Created a new blockchain, initial reward address: "<<reward_address<<std::endl;
+        std::cout<<"Blockchain data file can be found in: "<<db_loc<<std::endl;
     }
     else{
-        std::cout<<"Genesis block found"<<std::endl;
+        std::cout<<"Genesis block found, not taking any further action."<<std::endl;
     }
     tip = blockchain_db.get_last_hash_value();
 }
 
+/*
+    Regeneration constructor
+*/
+Blockchain::Blockchain(std::string db_loc) : blockchain_db(db_loc) {
+    db_location = db_loc;
+    SerializationWrapper serializer = SerializationWrapper();
+    if (blockchain_db.check_genesis()){
+        std::cout<<"Blockchain regenerated!"<<std::endl;
+        tip = blockchain_db.get_last_hash_value();
+    }
+    else{
+        std::cout<<"Invalid database location"<<std::endl;
+    }
+}
 
-Block Blockchain::new_block(std::string data){
-    Block spawn_block(tip, data);
+Block Blockchain::new_block(Transaction txs){
+    Block spawn_block(tip, txs);
     Proofer proof_of_work(&spawn_block, target_zeros);
     std::pair<int, std::string> pow_results = proof_of_work.run_pow();
     // Reset block nonce to contain a valid nonce
@@ -44,8 +53,10 @@ Block Blockchain::new_block(std::string data){
     return spawn_block;
 }
 
-Block Blockchain::generate_genesis_block(){
-    Block genesis_block("Genesis block");
+Block Blockchain::generate_genesis_block(std::string gen_reward_addr){
+    Transaction coinbase_tx_holder;
+    Transaction cb_tx = coinbase_tx_holder.new_coinbase_tx(gen_reward_addr, "Coinbase TX");
+    Block genesis_block(cb_tx);
     Proofer proof_of_work(&genesis_block, target_zeros);
     std::pair<int, std::string> pow_results = proof_of_work.run_pow();
     // Reset block nonce to contain a valid nonce

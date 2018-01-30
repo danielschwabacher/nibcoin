@@ -1,9 +1,14 @@
-
 #include <string>
 #include <iostream>
 #include <vector>
-#include "block.h"
+#include <bitset>  
 #include <tuple>
+#include <climits>
+
+#include "block.h"
+
+#include "../lib/sha256.h"
+
 #ifndef PROOF_INC 
 #define PROOF_INC
 

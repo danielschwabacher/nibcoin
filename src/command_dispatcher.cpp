@@ -1,12 +1,6 @@
-#include "blockchain.h"
-#include "block.h"
-#include "Serialization.h"
 #include "command_dispatcher.h"
-#include "chain_iterator.h"
-#include "database.h"
-#include <string>
-#include <cassert>
-#include <leveldb/db.h>
+
+
 
 /*
     A CommandDispatcher handles running operations entered 
@@ -27,13 +21,12 @@ CommandDispatcher::CommandDispatcher(Blockchain *context){
 /*
     Run the command the CommandDispatcher holds in context. 
 */
-int CommandDispatcher::run_add_block(){
+int CommandDispatcher::run_add_block(int amount, std::string send_addr){
     Database curr_db = chain_context->get_database();
-    std::string block_data;
-    std::cout<<"Enter block data to store: ";
-    std::cin.ignore();
-    std::getline(std::cin, block_data); 
-    chain_context->new_block(block_data);
+    TransactionOutput output_tx(amount, send_addr);
+    TransactionInput input_tx("PREVIOUS_TX HERE", "SCRIPT SIGNATURE HERE", 1);
+    Transaction blah("NEW TRANSACTION", input_tx, output_tx);
+    chain_context->new_block(blah);
     return 0;
 }
 
@@ -78,10 +71,10 @@ int CommandDispatcher::run_pretty_print(){
 
 int CommandDispatcher::print_help(){
     std::cout<<"---Supported Commands---"<<std::endl;
-    std::cout<<"<add_block>: Add a new block to the blockchain"<<std::endl;
-    std::cout<<"<delete_chain>: Deletes the blockchain and the associated data"<<std::endl;
-    std::cout<<"<dump_chain>: Print out the entire database structure, including internal keys."<<std::endl;
-    std::cout<<"<print_chain>: Nicely display the blockchain contents"<<std::endl;
+    std::cout<<"<add_block> or <a>: Add a new block to the blockchain"<<std::endl;
+    std::cout<<"<delete_chain> or <delete>: Deletes the blockchain and the associated data"<<std::endl;
+    std::cout<<"<dump_chain> or <dump>: Print out the entire database structure, including internal keys."<<std::endl;
+    std::cout<<"<print_chain> or <p>: Nicely display the blockchain contents"<<std::endl;
     std::cout<<"<help>: Show this help menu."<<std::endl;
     return 0;
 }

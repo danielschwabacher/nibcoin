@@ -1,10 +1,4 @@
-#include "block.h"
 #include "proofer.h"
-#include "../lib/sha256.h"
-#include <bitset>  
-#include <string>
-#include <tuple>
-#include <climits>
 
 /*
     The following PoW algoritihm is based on Hashcash. To prove a block has done the nessecary amount of work 
@@ -42,7 +36,7 @@ bool Proofer::is_valid_substring(std::string hex_substring){
     Build and return a string containing all of a block's information plus a nonce.
 */
 std::string Proofer::prepare_data(int nonce){
-    std::string block_contents = std::to_string(pow_block_ptr->get_timestamp()) + pow_block_ptr->get_data() + pow_block_ptr->get_prev_hash() + pow_block_ptr->get_block_hash() + std::to_string(nonce);
+    std::string block_contents = std::to_string(pow_block_ptr->get_timestamp()) + pow_block_ptr->get_transaction_string() + pow_block_ptr->get_prev_hash() + pow_block_ptr->get_block_hash() + std::to_string(nonce);
     return block_contents;
 }
 
@@ -58,7 +52,7 @@ std::string Proofer::prepare_data(int nonce){
 */
 std::pair<int, std::string> Proofer::run_pow(){
     std::pair<int, std::string> return_value;
-    std::cout<<"Mining the block containing: "<<pow_block_ptr->get_data()<<std::endl;
+    // std::cout<<"Mining the block containing: "<<pow_block_ptr->get_data()<<std::endl;
     int nonce = 0;
     long long int max_nonce = LLONG_MAX;
     std::string hash;

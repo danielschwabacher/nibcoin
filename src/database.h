@@ -1,7 +1,11 @@
-#include "block.h"
 #include <string>
 #include <iostream>
 #include <leveldb/db.h>
+#include <fstream>
+
+#include "block.h"
+#include "serialization.h"
+
 #include "../lib/json.hpp"
 
 #ifndef DATABASE_INC
