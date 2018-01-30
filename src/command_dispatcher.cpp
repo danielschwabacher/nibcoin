@@ -21,18 +21,11 @@ CommandDispatcher::CommandDispatcher(Blockchain *context){
 /*
     Run the command the CommandDispatcher holds in context. 
 */
-int CommandDispatcher::run_add_block(){
+int CommandDispatcher::run_add_block(int amount, std::string send_addr){
     Database curr_db = chain_context->get_database();
-    std::string output_val;
-    std::string output_addr;
-    std::cout<<"Number of coins to send: ";
-    std::cin.ignore();
-    std::getline(std::cin, output_val); 
-    std::cout<<"Address to send to: ";
-    std::getline(std::cin, output_addr);
-    TransactionOutput output_tx(atoi(output_val.c_str()), output_addr);
-    TransactionInput input_tx("prev", "sig", 1);
-    Transaction blah("new_tx", input_tx, output_tx);
+    TransactionOutput output_tx(amount, send_addr);
+    TransactionInput input_tx("PREVIOUS_TX HERE", "SCRIPT SIGNATURE HERE", 1);
+    Transaction blah("NEW TRANSACTION", input_tx, output_tx);
     chain_context->new_block(blah);
     return 0;
 }

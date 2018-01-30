@@ -20,7 +20,7 @@ class CommandDispatcher{
         Blockchain *chain_context;
     public:
         CommandDispatcher(Blockchain *chain_context);    
-        int run_add_block();
+        int run_add_block(int amount, std::string send_addr);
         int run_dump_chain();
         int run_delete_chain();
         int run_pretty_print();
