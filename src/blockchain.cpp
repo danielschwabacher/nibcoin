@@ -1,8 +1,8 @@
 #include "blockchain.h"
 
-// const int TARGET_ZEROS = 4;
+// const int TARGET_ZEROS = 5;
 // const std::string database_location = "/tmp/blocks";
-
+int HASH_DIFF = 5;
 /*
     
 */
@@ -40,7 +40,7 @@ Blockchain::Blockchain(std::string db_loc) : blockchain_db(db_loc) {
 
 Block Blockchain::new_block(Transaction txs){
     Block spawn_block(tip, txs);
-    Proofer proof_of_work(&spawn_block, target_zeros);
+    Proofer proof_of_work(&spawn_block, HASH_DIFF);
     std::pair<int, std::string> pow_results = proof_of_work.run_pow();
     // Reset block nonce to contain a valid nonce
     spawn_block.set_nonce(std::get<0>(pow_results));
@@ -50,6 +50,7 @@ Block Blockchain::new_block(Transaction txs){
     nlohmann::json serialized_block_data = serial.serialize_block(spawn_block);
     tip = spawn_block.get_block_hash();
     blockchain_db.write_block(spawn_block);
+    std::cout<<"Block added"<<std::endl;
     return spawn_block;
 }
 
@@ -57,7 +58,7 @@ Block Blockchain::generate_genesis_block(std::string gen_reward_addr){
     Transaction coinbase_tx_holder;
     Transaction cb_tx = coinbase_tx_holder.new_coinbase_tx(gen_reward_addr, "Coinbase TX");
     Block genesis_block(cb_tx);
-    Proofer proof_of_work(&genesis_block, target_zeros);
+    Proofer proof_of_work(&genesis_block, HASH_DIFF);
     std::pair<int, std::string> pow_results = proof_of_work.run_pow();
     // Reset block nonce to contain a valid nonce
     genesis_block.set_nonce(std::get<0>(pow_results));

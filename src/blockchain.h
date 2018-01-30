@@ -17,6 +17,8 @@
 #ifndef BLOCKCHAIN_INC 
 #define BLOCKCHAIN_INC
 
+extern int HASH_DIFF;
+
 /*
 */
 class Blockchain{
