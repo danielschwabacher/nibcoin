@@ -24,8 +24,15 @@ CommandDispatcher::CommandDispatcher(Blockchain *context){
 int CommandDispatcher::run_add_block(int amount, std::string send_addr){
     Database curr_db = chain_context->get_database();
     TransactionOutput output_tx(amount, send_addr);
-    TransactionInput input_tx("PREVIOUS_TX HERE", "SCRIPT SIGNATURE HERE", 1);
-    Transaction blah("NEW TRANSACTION", input_tx, output_tx);
+    std::string x = curr_db.get_data(curr_db.get_last_hash_value());
+    nlohmann::json json_data = nlohmann::json::parse(x);
+    std::string previous_block_tx_id = json_data["block_tx_id"];
+    TransactionInput input_tx(previous_block_tx_id, "WalletAddress", 1);
+    srand(time(NULL));
+    auto v1 = std::rand() % 100;
+    std::string random_tx_id = "Transaction number: ";
+    random_tx_id += std::to_string(v1);    
+    Transaction blah(random_tx_id, input_tx, output_tx);
     chain_context->new_block(blah);
     return 0;
 }

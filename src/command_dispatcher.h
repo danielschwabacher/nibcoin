@@ -10,6 +10,9 @@
 #include "database.h"
 #include "serialization.h"
 #include "transaction.h"
+#include "proofer.h"
+
+#include "../lib/json.hpp"
 
 
 #ifndef CMD_DISPATCH 
