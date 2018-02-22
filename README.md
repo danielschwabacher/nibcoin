@@ -39,9 +39,13 @@ nibcoin is only tested on macOS. The following instructions can be utilized to b
 * Safely delete the levelDB artifacts
 # Technical Details
 **These are not final and subject to change throughout development.** 
+
 Proof-of-work: modified version of **HashCash**
+
 Hashing algorithm: **SHA-256**
+
 Internal database: **levelDB**
+
 Total number of coins: **TBD**
 
 # Roadmap
